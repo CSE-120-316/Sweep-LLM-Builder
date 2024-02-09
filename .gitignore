@@ -1,0 +1,13 @@
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore Python bytecode files
+*.pyc
+
+# Ignore environment-specific files
+.env
+
+# Ignore Docker-specific files
+docker-compose.override.yml
+.dockerignore
