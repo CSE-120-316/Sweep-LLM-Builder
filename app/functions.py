@@ -1,0 +1,1 @@
+# This file acts as a temporary place for the functions that will be used in the application.
