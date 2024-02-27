@@ -1,0 +1,8 @@
+services:
+  interface:
+    build:
+      context: ./interface
+      dockerfile: dockerfile
+    ports:
+      - "8000:5000"
+
