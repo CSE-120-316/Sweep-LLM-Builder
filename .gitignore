@@ -12,3 +12,4 @@ Thumbs.db
 # Ignore Docker-specific files
 docker-compose.override.yml
 .dockerignore
+volumes

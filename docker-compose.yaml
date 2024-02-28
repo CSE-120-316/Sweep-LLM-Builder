@@ -5,4 +5,13 @@ services:
       dockerfile: dockerfile
     ports:
       - "8000:5000"
+    
+  database:
+    build:
+      context: ./db
+      dockerfile: dockerfile
+    volumes:
+      - ./volumes/db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
