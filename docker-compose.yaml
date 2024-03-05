@@ -1,13 +1,4 @@
 services:
-  interface:
-    build:
-      context: ./interface
-      dockerfile: dockerfile
-    volumes:
-      - ./volumes/pickle-data:/app/pickle-data
-    ports:
-      - "8000:5000"
-    
   database:
     build:
       context: ./db
@@ -16,3 +7,12 @@ services:
       - ./volumes/db-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  interface:
+    build:
+      context: ./interface
+      dockerfile: dockerfile
+    volumes:
+      - ./volumes/pickle-data:/app/pickle-data/
+    ports:
+      - "8000:5000"
