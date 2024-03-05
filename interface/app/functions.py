@@ -1,26 +1,8 @@
 import pickle
 from flask import request
-import psycopg2
 import os
-
-class LLM:
-    def __init__(self, name: str, model: str):
-        self.name = name
-        self.model = model
-        self.training_data = None
-        self.status = "OK"
-
-    def message():
-        pass
-
-    def train():
-        pass
-
-    def check_status(name: str):
-        # Get the LLm from pickle file and return its status
-        with open(f"llms/{name}.pkl", "rb") as f:
-            llm = pickle.load(f)
-        return llm.status
+import LLM
+import DBManager
 
 def createLLM(name: str, model: str):
     """
@@ -28,35 +10,30 @@ def createLLM(name: str, model: str):
     It saves the LLM instance to a file using pickle.
     """
     llm = LLM(name, model)
+
+    # Establishes the directory to save the LLM object
     directory = "llms"
     if not os.path.exists(directory):
         os.makedirs(directory)
 
+    # Save the LLM object to a pickle file
+    #TODO: Handles errors such as file already exists, etc.
     with open(f"{directory}/{name}.pkl", "wb") as f:
         pickle.dump(llm, f)
-
-class DBManager:
-    def __init__(self):
-        self.conn = psycopg2.connect(
-            dbname="mydb",
-            user="user",
-            password="pass",
-            host="localhost",
-            port="5432"
-        )
-        self.cur = self.conn.cursor()
 
 def saveTrainingData(LLMname: str, title: str, text: str):
     """
     This function receives the training data for the LLM.
     Given the name of the LLM, it saves the training data to a Postgres table.
     """
+
     #Check if an LLM with the given name exists
     try:
         with open(f"llms/{LLMname}.pkl", "rb") as f:
             llm = pickle.load(f)
     except FileNotFoundError:
         return "LLM not found."
+    
     # Connect to the database
     DBManager = DBManager()
     
