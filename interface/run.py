@@ -1,22 +1,26 @@
 from flask import Flask, request
+import app.functions as f
 
 # Create Flask application instance
 app = Flask(__name__)
 
 # Route for LLM selection
-@app.route('/selectLLM', methods=['POST'])
-def selectLLM():
+@app.route('/createLLM', methods=['POST'])
+def createLLM():
     """
-    This function selects the LLM model and downloads it.
+    This function creates a new LLM given a name and specified model.
     """
-    return "LLM selected and downloaded."
+    f.createLLM(request.form['name'], request.form['model'])
+    return "LLM created."
 
 # Route for LLM training data
 @app.route('/trainingData', methods=['POST'])
 def trainingData():
     """
     This function receives the training data for the LLM.
+    Given the name of the LLM, it saves the training data to a Postgres table.
     """
+    f.saveTrainingData(request.form['name'], request.form['title'], request.form['text'])
     return "Training data received."
 
 # Route to begin LLM training
