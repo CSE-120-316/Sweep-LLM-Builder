@@ -1,25 +1,31 @@
 import pickle
 from flask import request
 import os
-import LLM
-import DBManager
+import app.LanguageModel as lm
+import app.DBManager as dbm
+
+pickle_data = "/app/pickle-data"
 
 def createLLM(name: str, model: str):
     """
     This function creates a new LLM given a name and specified model.
     It saves the LLM instance to a file using pickle.
     """
-    llm = LLM(name, model)
+    llm = lm.LM(name, model)
 
     # Establishes the directory to save the LLM object
-    directory = "llms"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    if not os.path.exists(pickle_data):
+        os.makedirs(pickle_data)
 
     # Save the LLM object to a pickle file
     #TODO: Handles errors such as file already exists, etc.
-    with open(f"{directory}/{name}.pkl", "wb") as f:
+    with open(f"{pickle_data}/{name}.pkl", "wb") as f:
         pickle.dump(llm, f)
+
+    return llm.name + " created." + "Status: " + llm.status
+
+
+
 
 def saveTrainingData(LLMname: str, title: str, text: str):
     """
@@ -29,20 +35,24 @@ def saveTrainingData(LLMname: str, title: str, text: str):
 
     #Check if an LLM with the given name exists
     try:
-        with open(f"llms/{LLMname}.pkl", "rb") as f:
+        with open(f"{pickle_data}/{LLMname}.pkl", "rb") as f:
             llm = pickle.load(f)
     except FileNotFoundError:
         return "LLM not found."
     
     # Connect to the database
-    DBManager = DBManager()
+    DBManager = dbm.DBManager()
     
-    # Check if a table exists for the LLM
-    DBManager.cur.execute(f"SELECT * FROM information_schema.tables WHERE table_name='{LLMname}'")
-    if not DBManager.cur.fetchone():
+    # Check if the table already exists
+    DBManager.cur.execute(f"SELECT to_regclass('{LLMname}')")
+    if not DBManager.cur.fetchone()[0]:
         # If not, create a new table
-        DBManager.cur.execute(f"CREATE TABLE {LLMname} (data TEXT)")
+        DBManager.cur.execute(f"CREATE TABLE {LLMname} (title TEXT, contents TEXT)")
+        print(f"Table {LLMname} not found, creating new table.")
     # Save the training data to the table
-    DBManager.cur.execute(f"INSERT INTO {LLMname} (data) VALUES ('{title} {text}')")
+    DBManager.cur.execute(f"INSERT INTO {LLMname} (title, contents) VALUES (%s, %s)", (title, text))
     DBManager.conn.commit()
+    DBManager.cur.close()
+
+    print("{title} saved to {LLMname} table.")
     return "Training data received."

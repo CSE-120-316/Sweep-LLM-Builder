@@ -10,8 +10,7 @@ def createLLM():
     """
     This function creates a new LLM given a name and specified model.
     """
-    f.createLLM(request.form['name'], request.form['model'])
-    return "LLM created."
+    return f.createLLM(request.form['name'], request.form['model'])
 
 # Route for LLM training data
 @app.route('/trainingData', methods=['POST'])
@@ -20,7 +19,6 @@ def trainingData():
     This function receives the training data for the LLM.
     Given the name of the LLM, it saves the training data to a Postgres table.
     """
-    #TODO: Take input as JSON
     return f.saveTrainingData(request.form['name'], request.form['title'], request.form['text'])
 
 # Route to begin LLM training

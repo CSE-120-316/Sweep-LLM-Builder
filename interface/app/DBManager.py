@@ -6,7 +6,7 @@ class DBManager:
             dbname="mydb",
             user="user",
             password="pass",
-            host="localhost",
+            host="database",
             port="5432"
         )
         self.cur = self.conn.cursor()
