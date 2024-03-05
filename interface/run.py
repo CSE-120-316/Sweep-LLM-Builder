@@ -1,23 +1,25 @@
 from flask import Flask, request
+import app.functions as f
 
 # Create Flask application instance
 app = Flask(__name__)
 
 # Route for LLM selection
-@app.route('/selectLLM', methods=['POST'])
-def selectLLM():
+@app.route('/createLLM', methods=['POST'])
+def createLLM():
     """
-    This function selects the LLM model and downloads it.
+    This function creates a new LLM given a name and specified model.
     """
-    return "LLM selected and downloaded."
+    return f.createLLM(request.form['name'], request.form['model'])
 
 # Route for LLM training data
 @app.route('/trainingData', methods=['POST'])
 def trainingData():
     """
     This function receives the training data for the LLM.
+    Given the name of the LLM, it saves the training data to a Postgres table.
     """
-    return "Training data received."
+    return f.saveTrainingData(request.form['name'], request.form['title'], request.form['text'])
 
 # Route to begin LLM training
 @app.route('/trainLLM', methods=['POST'])
@@ -41,7 +43,7 @@ def checkStatus():
     """
     This function checks the status of the LLM.
     """
-    return "Status: OK"
+    return "LLM status: " + f.checkStatus(request.args['name'])
 
 
 # Run the Flask application if this script is executed directly

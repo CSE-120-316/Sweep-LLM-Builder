@@ -8,6 +8,7 @@ Thumbs.db
 # Ignore environment-specific files
 .env
 .conda
+.local
 
 # Ignore Docker-specific files
 docker-compose.override.yml
