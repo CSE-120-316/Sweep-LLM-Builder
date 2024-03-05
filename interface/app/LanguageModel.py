@@ -1,6 +1,6 @@
 import pickle
 
-class LLM:
+class LM:
     def __init__(self, name: str, model: str):
         self.name = name
         self.model = model
