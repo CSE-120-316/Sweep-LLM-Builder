@@ -41,18 +41,13 @@ def saveTrainingData(LLMname: str, title: str, text: str):
         return "LLM not found."
     
     # Connect to the database
-    DBManager = dbm.DBManager()
-    
-    # Check if the table already exists
-    DBManager.cur.execute(f"SELECT to_regclass('{LLMname}')")
-    if not DBManager.cur.fetchone()[0]:
-        # If not, create a new table
-        DBManager.cur.execute(f"CREATE TABLE {LLMname} (title TEXT, contents TEXT)")
-        print(f"Table {LLMname} not found, creating new table.")
-    # Save the training data to the table
-    DBManager.cur.execute(f"INSERT INTO {LLMname} (title, contents) VALUES (%s, %s)", (title, text))
-    DBManager.conn.commit()
-    DBManager.cur.close()
+    import app.DBManager as dbm
 
-    print("{title} saved to {LLMname} table.")
-    return "Training data received."
+    DBManager = dbm.DBManager()
+
+    try:
+        # Save the training data to the table
+        DBManager.addDocument(LLMname, title, text)
+        return title + " added to " + LLMname + " training data."
+    except Exception as e: #TODO Test this
+        return e
