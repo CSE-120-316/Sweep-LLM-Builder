@@ -35,7 +35,7 @@ def messageLLM():
     """
     This function sends a message to the LLM.
     """
-    return "Message sent to LLM."
+    return f.messageLLM(request.form['name'], request.form['message'])
 
 # Route to check status
 @app.route('/checkStatus', methods=['GET'])

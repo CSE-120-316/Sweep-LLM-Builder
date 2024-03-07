@@ -49,7 +49,7 @@ class DBManager:
         """
 
         #TODO Error handling: Table doesn't exist, start > end, end > number of documents, etc.
-        # Retrieve the training data from the table
+        # Retrieve the training data from the table, returns a list of tuples
         if start == None and end == None:
             self.cur.execute(f"SELECT * FROM {LLMname}")
         else:
