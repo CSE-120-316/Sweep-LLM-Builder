@@ -35,7 +35,7 @@ class DBManager:
         self.conn.commit()
         self.cur.close()
     
-    def getTrainingData(self, LLMname: str, start: int, end: int):
+    def getTrainingData(self, LLMname: str, start = None, end = None):
         """
         This function retrieves the training data for the LLM.
         
@@ -50,7 +50,10 @@ class DBManager:
 
         #TODO Error handling: Table doesn't exist, start > end, end > number of documents, etc.
         # Retrieve the training data from the table
-        self.cur.execute(f"SELECT * FROM {LLMname} LIMIT {end} OFFSET {start}")
+        if start == None and end == None:
+            self.cur.execute(f"SELECT * FROM {LLMname}")
+        else:
+            self.cur.execute(f"SELECT * FROM {LLMname} LIMIT {end} OFFSET {start}")
         data = self.cur.fetchall()
         self.cur.close()
         return data
