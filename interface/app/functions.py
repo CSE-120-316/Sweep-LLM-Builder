@@ -27,10 +27,15 @@ def createLLM(name: str, model: str):
 
 
 
-def saveTrainingData(LLMname: str, title: str, text: str):
+def saveTrainingData(LLMname: str, question: str, answer: str):
     """
     This function receives the training data for the LLM.
     Given the name of the LLM, it saves the training data to a Postgres table.
+
+    Args:
+        LLMname (str): The name of the LLM
+        question (str): The question to be added to the training data
+        answer (str): The associated answer to the question
     """
 
     #Check if an LLM with the given name exists
@@ -47,7 +52,7 @@ def saveTrainingData(LLMname: str, title: str, text: str):
 
     try:
         # Save the training data to the table
-        DBManager.addDocument(LLMname, title, text)
-        return title + " added to " + LLMname + " training data."
+        DBManager.addDocument(LLMname, question, answer)
+        return "Question/answer pair added to " + LLMname + " training data."
     except Exception as e: #TODO Test this
         return e

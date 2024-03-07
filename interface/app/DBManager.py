@@ -11,7 +11,7 @@ class DBManager:
         )
         self.cur = self.conn.cursor()
 
-    def addDocument(self, LLMname: str, title: str, text: str):
+    def addDocument(self, LLMname: str, question: str, answer: str):
         """
         This function receives the training data for the LLM.
         
@@ -28,10 +28,10 @@ class DBManager:
         self.cur.execute(f"SELECT to_regclass('{LLMname}')")
         if not self.cur.fetchone()[0]:
             # If not, create a new table
-            self.cur.execute(f"CREATE TABLE {LLMname} (id SERIAL, title TEXT, contents TEXT)")
+            self.cur.execute(f"CREATE TABLE {LLMname} (id SERIAL, question TEXT, answer TEXT)")
             print(f"Table {LLMname} not found, creating new table.")
         # Save the training data to the table
-        self.cur.execute(f"INSERT INTO {LLMname} (title, contents) VALUES (%s, %s)", (title, text))
+        self.cur.execute(f"INSERT INTO {LLMname} (question, answer) VALUES (%s, %s)", (question, answer))
         self.conn.commit()
         self.cur.close()
     
