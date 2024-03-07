@@ -47,9 +47,15 @@ class DBManager:
         Returns:
             list: A list of tuples containing the training data
         """
-        pass
 
-    def deleteEntry(self, LLMname: str, title: str):
+        #TODO Error handling: Table doesn't exist, start > end, end > number of documents, etc.
+        # Retrieve the training data from the table
+        self.cur.execute(f"SELECT * FROM {LLMname} LIMIT {end} OFFSET {start}")
+        data = self.cur.fetchall()
+        self.cur.close()
+        return data
+
+    def deleteEntry(self, LLMname: str, title: str): #TODO
         """
         This function deletes a document from the training data.
         
@@ -62,7 +68,7 @@ class DBManager:
         """
         pass
 
-    def deleteLLMTable(self, LLMname: str):
+    def deleteLLMTable(self, LLMname: str): #TODO
         """
         This function deletes the table associated with the LLM.
         
