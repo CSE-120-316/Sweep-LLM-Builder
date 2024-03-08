@@ -4,8 +4,7 @@ import os
 import app.LanguageModel as lm
 import app.DBManager as dbm
 
-# pickle_data = "/app/pickle-data/"
-pickle_data = "/Users/ajgrant/GitHub/_University Courses/Sweep-LLM-Builder/volumes/pickle-data/"
+pickle_data = "/app/pickle-data/"
 
 def LoadLLM(name: str):
     """
