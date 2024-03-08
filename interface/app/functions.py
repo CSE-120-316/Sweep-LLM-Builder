@@ -1,10 +1,20 @@
-import pickle
+import dill
 from flask import request
 import os
 import app.LanguageModel as lm
 import app.DBManager as dbm
 
-pickle_data = "/app/pickle-data"
+pickle_data = "/app/pickle-data/"
+# pickle_data = "/Users/ajgrant/GitHub/_University Courses/Sweep-LLM-Builder/volumes/pickle-data"
+
+def LoadLLM(name: str):
+    """
+    This function loads the LLM instances from the pickle files.
+    """
+    with open(pickle_data  + name + ".pkl", "rb") as f:
+        llm = dill.load(f)
+
+    return llm
 
 def createLLM(name: str, model: str):
     """
@@ -12,19 +22,9 @@ def createLLM(name: str, model: str):
     It saves the LLM instance to a file using pickle.
     """
     llm = lm.LM(name, model)
-
-    # Establishes the directory to save the LLM object
-    if not os.path.exists(pickle_data):
-        os.makedirs(pickle_data)
-
     # Save the LLM object to a pickle file
-    #TODO: Handles errors such as file already exists, etc.
-    with open(f"{pickle_data}/{name}.pkl", "wb") as f:
-        pickle.dump(llm, f)
-
-    return llm.name + " created." + "Status: " + llm.status
-
-
+    #TODO: Handles errors such as LLM name already exists, etc.
+    return llm
 
 
 def saveTrainingData(LLMname: str, question: str, answer: str):
@@ -38,13 +38,11 @@ def saveTrainingData(LLMname: str, question: str, answer: str):
         answer (str): The associated answer to the question
     """
 
-    #Check if an LLM with the given name exists
     try:
-        with open(f"{pickle_data}/{LLMname}.pkl", "rb") as f:
-            llm = pickle.load(f)
-    except FileNotFoundError:
+        llm = LoadLLM(LLMname)
+    except:
         return "LLM not found."
-    
+
     # Connect to the database
     import app.DBManager as dbm
 
@@ -56,3 +54,20 @@ def saveTrainingData(LLMname: str, question: str, answer: str):
         return "Question/answer pair added to " + LLMname + " training data."
     except Exception as e: #TODO Test this
         return e
+    
+def checkStatus(name: str):
+    """
+    This function checks the status of the LLM.
+
+    Args:
+        name (str): The name of the LLM
+
+    Returns:
+        str: A message indicating the status of the LLM
+    """
+    try:
+        llm = LoadLLM(name)
+    except:
+        return "LLM not found."
+    
+    return llm.status

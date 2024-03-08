@@ -1,5 +1,4 @@
-import pickle
-import DBManager as dbm
+import app.DBManager as dbm
 from openai import OpenAI
 import os
 
