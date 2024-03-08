@@ -19,7 +19,7 @@ def trainingData():
     This function receives the training data for the LLM.
     Given the name of the LLM, it saves the training data to a Postgres table.
     """
-    return f.saveTrainingData(request.form['name'], request.form['title'], request.form['text'])
+    return f.saveTrainingData(request.form['name'], request.form['question'], request.form['answer'])
 
 # Route to begin LLM training
 @app.route('/trainLLM', methods=['POST'])
@@ -27,7 +27,7 @@ def trainLLM():
     """
     This function begins the training of the LLM.
     """
-    return "LLM training has begun."
+    return f.trainLLM(request.form['name'], request.form['system_message'])
 
 # Route to message the LLM
 @app.route('/messageLLM', methods=['POST'])
@@ -35,7 +35,7 @@ def messageLLM():
     """
     This function sends a message to the LLM.
     """
-    return "Message sent to LLM."
+    return f.messageLLM(request.form['name'], request.form['message'])
 
 # Route to check status
 @app.route('/checkStatus', methods=['GET'])
@@ -46,6 +46,6 @@ def checkStatus():
     return "LLM status: " + f.checkStatus(request.args['name'])
 
 
-# Run the Flask application if this script is executed directly
+# Main function
 if __name__ == '__main__':
     app.run(debug=True)
