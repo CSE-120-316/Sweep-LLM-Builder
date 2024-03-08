@@ -58,7 +58,7 @@ class DBManager:
         self.cur.close()
         return data
 
-    def deleteEntry(self, LLMname: str, title: str): #TODO
+    def deleteEntry(self, LLMname: str, index: str): #TODO
         """
         This function deletes a document from the training data.
         
@@ -69,7 +69,14 @@ class DBManager:
         Returns:
             str: A message indicating the success or failure of the operation
         """
-        pass
+                
+        if index == "all":  # Delete all entries
+            self.cur.execute(f"DELETE FROM {LLMname}") # Delete all entries
+        else:
+            self.cur.execute(f"DELETE FROM {LLMname} WHERE id = {index}")
+        self.conn.commit()
+        self.cur.close()
+        return "Entry deleted"  
 
     def deleteLLMTable(self, LLMname: str): #TODO
         """
@@ -81,4 +88,7 @@ class DBManager:
         Returns:
             str: A message indicating the success or failure of the operation
         """
-        pass
+        self.cur.execute(f"DROP TABLE {LLMname}")
+        self.conn.commit()
+        self.cur.close()
+        return "Table deleted"
