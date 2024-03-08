@@ -73,7 +73,7 @@ def saveTrainingData(LLMname: str, question: str, answer: str):
     except Exception as e: #TODO Test this
         return e
     
-def trainLLM(name: str):
+def trainLLM(name: str, system_message: str = ""):
     """
     This function begins the training of the LLM.
     It retrieves the training data from the database and trains the model.
@@ -86,20 +86,14 @@ def trainLLM(name: str):
     except:
         return "LLM not found."
 
-    # Connect to the database
-    import app.DBManager as dbm
-
-    DBManager = dbm.DBManager()
-
-    # Get the training data
-    training_data = DBManager.getTrainingData(name)
-
     # Train the model
-    llm.train(training_data)
-
+    if system_message == "":
+        llm.train()
+    else:
+        llm.train(system_message)
+        
     # Save the LLM object to a pickle file
-    with open(pickle_data + name + ".pkl", "wb") as f:
-        dill.dump(llm, f)
+    SaveLLM(llm)
 
     return "LLM training has begun."
     
@@ -119,3 +113,21 @@ def checkStatus(name: str):
         return "LLM not found."
     
     return llm.status
+
+def messageLLM(name: str, message: str):
+    """
+    This function sends a message to the LLM.
+
+    Args:
+        name (str): The name of the LLM
+        message (str): The message to send to the LLM
+
+    Returns:
+        str: The response from the LLM
+    """
+    try:
+        llm = LoadLLM(name)
+    except:
+        return "LLM not found."
+
+    return llm.message(message)

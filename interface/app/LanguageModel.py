@@ -29,7 +29,7 @@ class LM:
         """
         self.messages.append({"role": "user", "content": message}) #TODO: Implement some kind of chatlog system
 
-        completion = self.client.complete(
+        completion = self.client.chat.completions.create(
             model = self.model,
             messages = self.messages,
         )
@@ -49,14 +49,18 @@ class LM:
 
         db = dbm.DBManager()
 
-        messages = [{"role": "system", "content": system_message},]
+        messages = [{"role": "system", "content": system_message}]
+
         training_data = db.getTrainingData(self.name)
 
         for data in training_data:
-            messages.append({"role": "user", "content": data[0]})
-            messages.append({"role": "assistant", "content": data[1]})
-        
+            print(str(data[0]))
+            print(str(data[1]))
+            messages.append({"role": "user", "content": str(data[0])})
+            messages.append({"role": "assistant", "content": str(data[1])})
 
+        self.messages = messages
+        
         self.status = "Trained"
 
     def check_status(self):

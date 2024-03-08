@@ -27,7 +27,7 @@ def trainLLM():
     """
     This function begins the training of the LLM.
     """
-    return "LLM training has begun."
+    return f.trainLLM(request.form['name'], request.form['system_message'])
 
 # Route to message the LLM
 @app.route('/messageLLM', methods=['POST'])
