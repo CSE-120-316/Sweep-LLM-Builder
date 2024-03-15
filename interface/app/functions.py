@@ -62,7 +62,6 @@ def saveTrainingData(LLMname: str, question: str, answer: str):
         return "LLM not found."
 
     # Connect to the database
-    import app.DBManager as dbm
 
     DBManager = dbm.DBManager()
 
