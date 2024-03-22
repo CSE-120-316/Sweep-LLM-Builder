@@ -42,7 +42,7 @@ def createLLM(name: str, model: str):
     #TODO: Handles errors such as LLM name already exists, etc.
 
     SaveLLM(llm)
-    return llm.name + " LLM created with model " + llm.model + "."
+    return "creation success"
 
 
 def saveTrainingData(LLMname: str, question: str, answer: str):
@@ -59,17 +59,15 @@ def saveTrainingData(LLMname: str, question: str, answer: str):
     try:
         llm = LoadLLM(LLMname)
     except:
-        return "LLM not found."
+        return "LLM not found"
 
     # Connect to the database
-    import app.DBManager as dbm
-
     DBManager = dbm.DBManager()
 
     try:
         # Save the training data to the table
         DBManager.addDocument(LLMname, question, answer)
-        return "Question/answer pair added to " + LLMname + " training data."
+        return "Question/answer pair added to training data"
     except Exception as e: #TODO Test this
         return e
     
@@ -95,9 +93,9 @@ def trainLLM(name: str, system_message: str = ""):
     # Save the LLM object to a pickle file
     SaveLLM(llm)
 
-    return "LLM training has begun."
+    return "LLM training has begun"
     
-def checkStatus(name: str):
+def getInfo(name: str):
     """
     This function checks the status of the LLM.
 
@@ -109,10 +107,19 @@ def checkStatus(name: str):
     """
     try:
         llm = LoadLLM(name)
+        info = {
+        "name": llm.name,
+        "model": llm.model,
+        "status": llm.status
+        }
     except:
-        return "LLM not found."
-    
-    return llm.status
+        info = {
+            "name": name,
+            "model": "N/A",
+            "status": "LLM not found"
+        }
+
+    return info
 
 def messageLLM(name: str, message: str):
     """
@@ -128,6 +135,6 @@ def messageLLM(name: str, message: str):
     try:
         llm = LoadLLM(name)
     except:
-        return "LLM not found."
+        return "LLM not found"
 
     return llm.message(message)
