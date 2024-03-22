@@ -29,6 +29,7 @@ def trainingData():
         "LLM": f.getInfo(request.form['name']),
         "message": message
     }
+    return response
 
 # Route to begin LLM training
 @app.route('/trainLLM', methods=['POST'])
@@ -41,6 +42,7 @@ def trainLLM():
         "LLM": f.getInfo(request.form['name']),
         "message": message
     }
+    return response
 
 # Route to message the LLM
 @app.route('/messageLLM', methods=['POST'])
@@ -53,6 +55,7 @@ def messageLLM():
         "LLM": f.getInfo(request.form['name']),
         "message": message
     }
+    return response
 
 # Route to check status
 @app.route('/checkStatus', methods=['GET'])
