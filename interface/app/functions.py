@@ -59,16 +59,15 @@ def saveTrainingData(LLMname: str, question: str, answer: str):
     try:
         llm = LoadLLM(LLMname)
     except:
-        return "LLM not found."
+        return "LLM not found"
 
     # Connect to the database
-
     DBManager = dbm.DBManager()
 
     try:
         # Save the training data to the table
         DBManager.addDocument(LLMname, question, answer)
-        return "Question/answer pair added to training data."
+        return "Question/answer pair added to training data"
     except Exception as e: #TODO Test this
         return e
     
@@ -94,7 +93,7 @@ def trainLLM(name: str, system_message: str = ""):
     # Save the LLM object to a pickle file
     SaveLLM(llm)
 
-    return "LLM training has begun."
+    return "LLM training has begun"
     
 def getInfo(name: str):
     """
@@ -108,14 +107,17 @@ def getInfo(name: str):
     """
     try:
         llm = LoadLLM(name)
-    except:
-        return "LLM not found."
-    
-    info = {
+        info = {
         "name": llm.name,
         "model": llm.model,
         "status": llm.status
-    }
+        }
+    except:
+        info = {
+            "name": name,
+            "model": "N/A",
+            "status": "LLM not found"
+        }
 
     return info
 
@@ -133,6 +135,6 @@ def messageLLM(name: str, message: str):
     try:
         llm = LoadLLM(name)
     except:
-        return "LLM not found."
+        return "LLM not found"
 
     return llm.message(message)
