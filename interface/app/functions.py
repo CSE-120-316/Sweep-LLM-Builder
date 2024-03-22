@@ -42,7 +42,7 @@ def createLLM(name: str, model: str):
     #TODO: Handles errors such as LLM name already exists, etc.
 
     SaveLLM(llm)
-    return llm.name + " LLM created with model " + llm.model + "."
+    return "creation success"
 
 
 def saveTrainingData(LLMname: str, question: str, answer: str):
@@ -68,7 +68,7 @@ def saveTrainingData(LLMname: str, question: str, answer: str):
     try:
         # Save the training data to the table
         DBManager.addDocument(LLMname, question, answer)
-        return "Question/answer pair added to " + LLMname + " training data."
+        return "Question/answer pair added to training data."
     except Exception as e: #TODO Test this
         return e
     
@@ -96,7 +96,7 @@ def trainLLM(name: str, system_message: str = ""):
 
     return "LLM training has begun."
     
-def checkStatus(name: str):
+def getInfo(name: str):
     """
     This function checks the status of the LLM.
 
@@ -111,7 +111,13 @@ def checkStatus(name: str):
     except:
         return "LLM not found."
     
-    return llm.status
+    info = {
+        "name": llm.name,
+        "model": llm.model,
+        "status": llm.status
+    }
+
+    return info
 
 def messageLLM(name: str, message: str):
     """
