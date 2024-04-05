@@ -23,3 +23,16 @@ def formatter(db_name, usr, psswd, host, port):
 
   # Retrieve info from query
   rows = cursor.fetchall()
+
+  # Empty list to store .json files
+  json_files = []
+
+  # Append to list
+  for row in rows:
+    json_files.append(json.loads(row[0]))
+
+  # Close connection to DB
+  conn.close()
+
+  # Return list
+  return json_files
