@@ -1,5 +1,5 @@
 # Rohit Rao April 4th, 2024
-# Description: Basic inference code for interacting with finetuned model.
+# Description: Basic inference code for interacting with finetuned model with PEFT.
 
 import os
 import torch
