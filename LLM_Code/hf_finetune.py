@@ -1,3 +1,5 @@
+# Rohit Rao April 4th, 2024
+# Description: Finetuning LLAMA2 on local and hf datasets.
 import os
 import torch
 from datasets import load_dataset
