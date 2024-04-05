@@ -66,6 +66,12 @@ def checkStatus():
     response = f.getInfo(request.args['name'])
     return response
 
+@app.route('/ping', methods=['GET'])
+def ping():
+    """
+    This function checks the status of the server.
+    """
+    return "pong"
 
 # Main function
 if __name__ == '__main__':
