@@ -1,0 +1,44 @@
+{
+  "QnAData": [
+    {
+      "question": "What is the capital of France?",
+      "answer": "Paris"
+    },
+    {
+      "question": "Who wrote 'To Kill a Mockingbird'?",
+      "answer": "Harper Lee"
+    },
+    {
+      "question": "What is the chemical symbol for gold?",
+      "answer": "Au"
+    },
+    {
+      "question": "In which year did the Apollo 11 mission land on the Moon?",
+      "answer": "1969"
+    },
+    {
+      "question": "What is the largest planet in our solar system?",
+      "answer": "Jupiter"
+    },
+    {
+      "question": "Who is known as the father of modern physics?",
+      "answer": "Albert Einstein"
+    },
+    {
+      "question": "What is the hardest natural substance on Earth?",
+      "answer": "Diamond"
+    },
+    {
+      "question": "What is the capital of Japan?",
+      "answer": "Tokyo"
+    },
+    {
+      "question": "Who painted the Mona Lisa?",
+      "answer": "Leonardo da Vinci"
+    },
+    {
+      "question": "What is the formula for water?",
+      "answer": "H2O"
+    }
+  ]
+}
