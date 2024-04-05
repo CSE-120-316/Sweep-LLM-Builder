@@ -5,7 +5,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 from pyarrow import json
 
-def formatter(db_name, usr, psswd, host, port):
+def get_files(db_name, usr, psswd, host, port):
   """
   This function interacts with the provided postgres database in order to retrieve the .json files
   that are being stored in its table. These .json files are then loaded into a list.
@@ -36,3 +36,5 @@ def formatter(db_name, usr, psswd, host, port):
 
   # Return list
   return json_files
+
+
