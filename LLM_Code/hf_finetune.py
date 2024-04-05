@@ -1,3 +1,5 @@
+# Rohit Rao April 4th, 2024
+# Description: Basic inference code for interacting with finetuned model.
 import os
 import torch
 from datasets import load_dataset
