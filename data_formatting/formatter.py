@@ -53,3 +53,16 @@ def join_files(json_list):
   # Dump objects into a json file
   with open("combined_data.json", 'w') as f:
     json.dump(python_objs, f, indent=4)
+
+
+def create_dataset(json_file_path, dataset_path):
+  """
+  This function simply takes a .json file and converts it to apache parquet format.
+  """
+
+  # Read .json file into dataframe
+  df = pd.read_json(json_file_path)
+  
+  # Write dataframe into parquet format
+  df.to_parquet(dataset_path, engine="pyarrow")
+
