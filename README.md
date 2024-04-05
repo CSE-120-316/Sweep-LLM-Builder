@@ -13,6 +13,9 @@ Connect to the database:
 
 # Commands for LLM setup
 python -m venv LLAMA
+
 source LLAMA/bin/activate
+
 pip install -r llm_requirements.txt
+
 python hf_finetune.py
