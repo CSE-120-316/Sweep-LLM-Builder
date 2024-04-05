@@ -9,6 +9,9 @@ COPY . /app
 
 # Install any needed dependencies specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+# Install wget
+RUN apt-get update && apt-get install -y wget
+
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000

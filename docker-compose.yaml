@@ -16,7 +16,12 @@ services:
       - database
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY} #! Replace with your OpenAI API key. DO NOT COMMIT THIS FILE WITH YOUR API KEY
+      - UNIQUE_LLAMA_URL=${UNIQUE_LLAMA_URL} #! Replace with your unique Llama URL
+
     volumes:
       - ./volumes/pickle-data:/app/pickle-data/
+      - ./volumes/llm-repos:/app/llm-repos/
+    command: command
+      ["sh", "/app/setup.sh"]
     ports:
       - "8000:5000"
