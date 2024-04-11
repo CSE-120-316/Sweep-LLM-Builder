@@ -3,9 +3,6 @@ FROM postgres:latest
 
 # !TODO: Collect username and passwords from somewhere else
 # Set environment variables for PostgreSQL
-ENV POSTGRES_USER "user"
-ENV POSTGRES_PASSWORD "pass"
-ENV POSTGRES_DB "mydb"
 
 # Expose the PostgreSQL port
 EXPOSE 5432

@@ -5,8 +5,12 @@ services:
       dockerfile: dockerfile
     volumes:
       - ./volumes/db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "6361:5432"
 
   interface:
     build:
@@ -24,4 +28,4 @@ services:
     command:
       # ["sh", "/app/setup.sh"]
     ports:
-      - "8000:5000"
+      - "6360:5000"
