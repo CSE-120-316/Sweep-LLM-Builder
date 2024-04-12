@@ -27,9 +27,22 @@ def get_files(db_name, usr, psswd, host, port):
   # Empty list to store .json files
   json_files = []
 
-  # Append to list
-  for row in rows:
-    json_files.append(json.loads(row[0]))
+  # Assuming a specific format for the .json files similar to what one would expect from the SQuAD (Stanford Question and Answer) data set we can concatenate the files as follows:
+  for filename in json_files:
+        with open(filename, 'r') as file:
+            data = json.load(file)
+            for article in data['data']:
+                for paragraph in article['paragraphs']:
+                    context = paragraph['context']
+                    for qa in paragraph['qas']:
+                        question = qa['question']
+                        for answer in qa['answers']:
+                            rows.append({
+                                'Context (Paragraph)': context,
+                                'Question': question,
+                                'Answer Text': answer['text'],
+                                'Answer Start Position': answer['answer_start']
+                            })
 
   # Close connection to DB
   conn.close()
