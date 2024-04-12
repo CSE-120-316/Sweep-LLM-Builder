@@ -68,14 +68,8 @@ def join_files(json_list):
     json.dump(python_objs, f, indent=4)
 
 
-def create_dataset(json_file_path, dataset_path):
-  """
-  This function simply takes a .json file and converts it to apache parquet format.
-  """
+# No longer need function to streamline process for converting .json files to apache parquet. This is because
+# in the finetuning code when we read from .json we will already convert to parquet automatically.
 
-  # Read .json file into dataframe
-  df = pd.read_json(json_file_path)
-  
-  # Write dataframe into parquet format
-  df.to_parquet(dataset_path, engine="pyarrow")
+
 
