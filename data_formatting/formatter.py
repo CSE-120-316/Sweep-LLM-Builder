@@ -70,6 +70,3 @@ def join_files(json_list):
 
 # No longer need function to streamline process for converting .json files to apache parquet. This is because
 # in the finetuning code when we read from .json we will already convert to parquet automatically.
-
-
-
