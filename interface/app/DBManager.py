@@ -1,8 +1,8 @@
 import psycopg2
 import json
 import os
+import app.key as key
 
-llm_datasets = "/app/llm-training-data/"
 class DBManager:
     def __init__(self):
         self.conn = psycopg2.connect( #TODO We can not initialize authentication here, we need to take it in.
@@ -39,34 +39,6 @@ class DBManager:
 
         self.cur.close()
         return "Dataset saved successfully"
-    
-    def getTrainingData(self, dataName: str, start: int = None, end: int = None):
-        """
-        This function retrieves the training data for the LLM. And saves it to a
-        .json file
-        
-        Args:
-            dataName (str): The name of the LLM
-            start (int): (Optional) The index of the first document to retrieve
-            end (int): (Optional) The index of the last document to retrieve
-        
-        Returns:
-            list: A list of tuples containing the training data
-        """
-
-        #TODO Error handling: Table doesn't exist, start > end, end > number of documents, etc.
-        # Retrieve the training data from the table, returns a list of tuples
-        if start == None and end == None:
-            self.cur.execute(f"SELECT * FROM {dataName}")
-        else:
-            self.cur.execute(f"SELECT * FROM {dataName} WHERE id BETWEEN {start} AND {end}")
-        data = self.cur.fetchall()
-        self.cur.close()
-        # Create a .json file with the training data
-        f = open(f"{llm_datasets}{dataName}.json", "w")
-        json.dump(data, f)
-        f.close()
-        return data
         
 
     def deleteEntry(self, LLMname: str, index: str): #TODO
@@ -103,3 +75,38 @@ class DBManager:
         self.conn.commit()
         self.cur.close()
         return "Table deleted"
+    
+    def checkDataset(self, dataName: str):
+        """
+        This function checks if a dataset exists in the database.
+
+        Args:
+            dataName (str): The name of the dataset
+
+        Returns:
+            bool: True if the dataset exists, False otherwise
+        """
+        self.cur.execute(f"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '{dataName}')")
+        return self.cur.fetchone()[0]
+    
+    def prepDataset(self, dataName: str):
+        """
+        This function prepares the dataset by placing it in a .json file.
+
+        Args:
+            dataName (str): The name of the dataset
+
+        Returns:
+            str: A message indicating the success or failure of the operation
+        """
+        # Create the .json file. It takes each entry from the table and places it as
+        # a new line in the .json file.
+        self.cur.execute(f"SELECT * FROM {dataName}")
+        data = self.cur.fetchall()
+        with open(f"{key.datasets_location}{dataName}.json", "w") as f:
+            for entry in data:
+                f.write(entry[1] + "\n")
+        self.cur.close()
+        f.close()
+
+        return f"{key.datasets_location}{dataName}.json"

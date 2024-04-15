@@ -4,19 +4,6 @@ import app.functions as f
 # Create Flask application instance
 app = Flask(__name__)
 
-# Route for LLM selection
-@app.route('/createLLM', methods=['POST'])
-def createLLM():
-    """
-    This function creates a new LLM given a name and specified model.
-    """
-    message = f.createLLM(request.form['name'], request.form['model'])
-    response = {
-        "LLM": f.getInfo(request.form['name']),
-        "message": message
-    }
-    return response
-    
 # Route for LLM training data
 @app.route('/trainingData', methods=['POST'])
 def trainingData():
@@ -31,11 +18,25 @@ def trainingData():
     }
     return response
 
-# Route to begin LLM training
-@app.route('/trainLLM', methods=['POST'])
-def trainLLM():
+# Route for LLM selection
+@app.route('/createChatBot', methods=['POST'])
+def createChatBot():
     """
-    This function begins the training of the LLM.
+    This function creates a new ChatBot given a name and specified model.
+    """
+    message = f.createChatBot(request.form['name'], request.form['model'])
+    response = {
+        "ChatBot": f.getInfo(request.form['name']),
+        "message": message
+    }
+    return response
+
+# Route to begin LLM training
+@app.route('/trainChatBot', methods=['POST'])
+def trainChatBot():
+    """
+    This function begins the training of the ChatBot given the name of 
+    a chatbot and the name of the dataset.
     """
     message = f.trainLLM(request.form['name'], request.form['system_message'])
     response = {
@@ -45,7 +46,7 @@ def trainLLM():
     return response
 
 # Route to message the LLM
-@app.route('/messageLLM', methods=['POST'])
+@app.route('/messageChatBot', methods=['POST'])
 def messageLLM():
     """
     This function sends a message to the LLM.

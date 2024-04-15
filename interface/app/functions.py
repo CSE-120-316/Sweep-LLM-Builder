@@ -1,48 +1,40 @@
 import dill
 from flask import request
 import os
-import app.LanguageModel as lm
+import app.ChatBot as cb
 import app.DBManager as dbm
 
 pickle_data = "/app/pickle-data/"
-llm_datasets = "/app/llm-training-data/"
+llm_datasets = "/app/llm-datasets/"
 
-def LoadLLM(name: str):
+def loadChatBot(name: str):
     """
     This function loads the LLM instances from the pickle files.
     """
     # Load the LLM object from a pickle file
     with open(pickle_data + name + ".pkl", "rb") as f:
-        llm = dill.load(f)
-    
-    # Readd the client to the LLM object
-    #! This is an OpenAI thing that won't be in the final version
-    llm.client = lm.OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
+        chatbot = dill.load(f)
 
-    return llm
+    return chatbot
 
-def SaveLLM(llm: lm.LM):
+def saveChatBot(chatbot: cb.ChatBot):
     """
     This function saves the LLM instance to a file using pickle.
     """
-    # Remove sensitive information from the LLM object 
-    #!This is an OpenAI thing that won't be in the final version
-    llm.client = None 
-
     # Save the LLM object to a pickle file
-    with open(pickle_data + llm.name + ".pkl", "wb") as f:
-        dill.dump(llm, f)
+    with open(pickle_data + cb.name + ".pkl", "wb") as f:
+        dill.dump(chatbot, f)
 
-def createLLM(name: str, model: str):
+def createChatBot(name: str, model: str):
     """
     This function creates a new LLM given a name and specified model.
     It saves the LLM instance to a file using pickle.
     """
-    llm = lm.LM(name, model)
+    chatbot = cb.ChatBot(name, model)
     # Save the LLM object to a pickle file
     #TODO: Handles errors such as LLM name already exists, etc.
 
-    SaveLLM(llm)
+    saveChatBot(chatbot)
     return "creation success"
 
 
@@ -75,7 +67,7 @@ def trainLLM(name: str, system_message: str = ""):
         name (str): The name of the LLM
     """
     try:
-        llm = LoadLLM(name)
+        llm = loadChatBot(name)
     except:
         return "LLM not found."
 
@@ -86,7 +78,7 @@ def trainLLM(name: str, system_message: str = ""):
         llm.train(system_message)
         
     # Save the LLM object to a pickle file
-    SaveLLM(llm)
+    saveChatBot(llm)
 
     return "LLM training has begun"
     
@@ -101,7 +93,7 @@ def getInfo(name: str):
         str: A message indicating the status of the LLM
     """
     try:
-        llm = LoadLLM(name)
+        llm = loadChatBot(name)
         info = {
         "name": llm.name,
         "model": llm.model,
@@ -128,7 +120,7 @@ def messageLLM(name: str, message: str):
         str: The response from the LLM
     """
     try:
-        llm = LoadLLM(name)
+        llm = loadChatBot(name)
     except:
         return "LLM not found"
 
