@@ -1,0 +1,15 @@
+from LLM_Code import LlamaChatBot
+from LLM_Code import LlamaTrainer
+
+LLMObj = LlamaTrainer("finance-Model","datasets/financefake.json","2e-4") # ("modelName", "path/to/dataset", "lr")
+LLMObj.trainLLM()
+
+
+while True:
+    userinp = input("Enter 'finished' when you're finished: \n")
+    if userinp.lower() == "finished":
+        print("Thanks for using this chatbot.")
+        break
+    else:
+        ChatBotObj = ChatBot("finance-Model") # Choose the same "modelName" name you chose from LLAMATrainer.py
+        print(ChatBotObj.respond("Hello does this work?"))
