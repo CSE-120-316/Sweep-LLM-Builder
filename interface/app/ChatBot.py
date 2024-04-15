@@ -37,6 +37,7 @@ class ChatBot:
 
         # Train the model
         self.trainer = LLamaTrainer.LlamaTrainer(self.model, datalocation, 2e-4)
+        self.trainer.trainLLM()
         
         self.status = "Trained"
 

@@ -18,7 +18,6 @@ services:
       dockerfile: dockerfile
     depends_on:
       - database
-
     volumes:
       - ./volumes/pickle-data:/app/pickle-data/
       - ./volumes/llm-datasets:/app/llm-datasets/
