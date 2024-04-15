@@ -45,29 +45,23 @@ def createLLM(name: str, model: str):
     return "creation success"
 
 
-def saveTrainingData(LLMname: str, question: str, answer: str):
+def saveTrainingData(dataName: str, dataContent: dict):
     """
     This function receives the training data for the LLM.
     Given the name of the LLM, it saves the training data to a Postgres table.
 
     Args:
-        LLMname (str): The name of the LLM
-        question (str): The question to be added to the training data
-        answer (str): The associated answer to the question
+        dataName (str): The name of the LLM
+        dataContent (dict): The training data to save to the database
     """
-
-    try:
-        llm = LoadLLM(LLMname)
-    except:
-        return "LLM not found"
 
     # Connect to the database
     DBManager = dbm.DBManager()
 
     try:
         # Save the training data to the table
-        DBManager.addDocument(LLMname, question, answer)
-        return "Question/answer pair added to training data"
+        DBManager.addDocument(dataName, dataContent)
+        return "Dataset saved successfully"
     except Exception as e: #TODO Test this
         return e
     

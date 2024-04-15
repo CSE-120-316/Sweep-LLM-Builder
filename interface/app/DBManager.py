@@ -11,31 +11,36 @@ class DBManager:
         )
         self.cur = self.conn.cursor()
 
-    def addDocument(self, LLMname: str, question: str, answer: str):
+    def addDocument(self, dataName: str, dataContent: str):
         """
         This function receives the training data for the LLM.
         
         Args:
-            LLMname (str): The name of the LLM
-            title (str): The title of the document
-            text (str): The contents of the document
-            
+            dataName (str): The name of the LLM
+            dataContent (dict): The training data to save to the database
+
         Returns:
-        str: A message indicating the success or failure of the operation
+            str: A message indicating the success or failure of the operation
         """
 
         # Check if the table already exists
-        self.cur.execute(f"SELECT to_regclass('{LLMname}')")
-        if not self.cur.fetchone()[0]:
-            # If not, create a new table
-            self.cur.execute(f"CREATE TABLE {LLMname} (id SERIAL, question TEXT, answer TEXT)")
-            print(f"Table {LLMname} not found, creating new table.")
-        # Save the training data to the table
-        self.cur.execute(f"INSERT INTO {LLMname} (question, answer) VALUES (%s, %s)", (question, answer))
+        self.cur.execute(f"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '{dataName}')")
+        if self.cur.fetchone()[0]:
+            return "Table already exists" #TODO Error handling: Maybe throw an error or something.
+        
+        # Create a table for the LLM
+        self.cur.execute(f"CREATE TABLE {dataName} (id SERIAL PRIMARY KEY, document TEXT)")
         self.conn.commit()
+
+        # Insert the training data into the table
+        for document in dataContent:
+            self.cur.execute(f"INSERT INTO {dataName} (document) VALUES ('{document}')")
+        self.conn.commit()
+
         self.cur.close()
+        return "Dataset saved successfully"
     
-    def getTrainingData(self, LLMname: str, start = None, end = None):
+    def getTrainingData(self, dataName: str, start: int = None, end: int = None):
         """
         This function retrieves the training data for the LLM.
         
@@ -51,9 +56,9 @@ class DBManager:
         #TODO Error handling: Table doesn't exist, start > end, end > number of documents, etc.
         # Retrieve the training data from the table, returns a list of tuples
         if start == None and end == None:
-            self.cur.execute(f"SELECT * FROM {LLMname}")
+            self.cur.execute(f"SELECT * FROM {dataName}")
         else:
-            self.cur.execute(f"SELECT * FROM {LLMname} LIMIT {end} OFFSET {start}")
+            self.cur.execute(f"SELECT * FROM {dataName} WHERE id BETWEEN {start} AND {end}")
         data = self.cur.fetchall()
         self.cur.close()
         return data

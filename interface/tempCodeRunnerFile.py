@@ -1,1 +1,0 @@
-f.createLLM(request.form['name'], request.form['model'])

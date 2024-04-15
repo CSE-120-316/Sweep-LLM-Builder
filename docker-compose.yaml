@@ -18,13 +18,10 @@ services:
       dockerfile: dockerfile
     depends_on:
       - database
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY} #! Replace with your OpenAI API key. DO NOT COMMIT THIS FILE WITH YOUR API KEY
-      - UNIQUE_LLAMA_URL=${UNIQUE_LLAMA_URL} #! Replace with your unique Llama URL
 
     volumes:
       - ./volumes/pickle-data:/app/pickle-data/
-      - ./volumes/llm-repos:/app/llm-repos/
+      - ./volumes/llm-repos:/app/llm-datasets/
     command:
       # ["sh", "/app/setup.sh"]
     ports:

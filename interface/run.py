@@ -22,9 +22,9 @@ def createLLM():
 def trainingData():
     """
     This function receives the training data for the LLM.
-    Given the name of the LLM, it saves the training data to a Postgres table.
+    Given the name of the data, it saves the training data to a Postgres table.
     """
-    message = f.saveTrainingData(request.form['name'], request.form['question'], request.form['answer'])
+    message = f.saveTrainingData(request.form['data_name'], request.form['data_content'])
     response = {
         "LLM": f.getInfo(request.form['name']),
         "message": message
