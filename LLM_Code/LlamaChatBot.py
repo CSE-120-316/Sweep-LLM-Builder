@@ -1,5 +1,5 @@
 # Rohit Rao
-# Llama2 Finetuner Object.
+# Llama2 Chatbot Object.
 # 4/12/2024
 
 import os   
