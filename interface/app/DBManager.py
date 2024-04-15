@@ -1,11 +1,14 @@
 import psycopg2
+import json
+import os
 
+llm_datasets = "/app/llm-training-data/"
 class DBManager:
     def __init__(self):
         self.conn = psycopg2.connect( #TODO We can not initialize authentication here, we need to take it in.
             dbname="mydb",
-            user="user",
-            password="pass",
+            user="UCMStudents6",
+            password="KRKT86V9wr8tkGHkQN6tM8mHDmk2R7",
             host="database",
             port="5432"
         )
@@ -25,16 +28,13 @@ class DBManager:
 
         # Check if the table already exists
         self.cur.execute(f"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '{dataName}')")
-        if self.cur.fetchone()[0]:
-            return "Table already exists" #TODO Error handling: Maybe throw an error or something.
-        
-        # Create a table for the LLM
-        self.cur.execute(f"CREATE TABLE {dataName} (id SERIAL PRIMARY KEY, document TEXT)")
-        self.conn.commit()
+        if self.cur.fetchone()[0] == False:
+            # Create a new table with the name dataName
+            self.cur.execute(f"CREATE TABLE {dataName} (id SERIAL PRIMARY KEY, document TEXT)")
+            self.conn.commit()
 
-        # Insert the training data into the table
-        for document in dataContent:
-            self.cur.execute(f"INSERT INTO {dataName} (document) VALUES ('{document}')")
+        # Insert the dataContent as an entry in the table
+        self.cur.execute(f"INSERT INTO {dataName} (document) VALUES ('{dataContent}')")
         self.conn.commit()
 
         self.cur.close()
@@ -42,10 +42,11 @@ class DBManager:
     
     def getTrainingData(self, dataName: str, start: int = None, end: int = None):
         """
-        This function retrieves the training data for the LLM.
+        This function retrieves the training data for the LLM. And saves it to a
+        .json file
         
         Args:
-            LLMname (str): The name of the LLM
+            dataName (str): The name of the LLM
             start (int): (Optional) The index of the first document to retrieve
             end (int): (Optional) The index of the last document to retrieve
         
@@ -61,7 +62,12 @@ class DBManager:
             self.cur.execute(f"SELECT * FROM {dataName} WHERE id BETWEEN {start} AND {end}")
         data = self.cur.fetchall()
         self.cur.close()
+        # Create a .json file with the training data
+        f = open(f"{llm_datasets}{dataName}.json", "w")
+        json.dump(data, f)
+        f.close()
         return data
+        
 
     def deleteEntry(self, LLMname: str, index: str): #TODO
         """

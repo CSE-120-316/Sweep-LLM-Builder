@@ -26,7 +26,7 @@ def trainingData():
     """
     message = f.saveTrainingData(request.form['data_name'], request.form['data_content'])
     response = {
-        "LLM": f.getInfo(request.form['name']),
+        "dataSet": "data_name",
         "message": message
     }
     return response
@@ -72,6 +72,8 @@ def ping():
     This function checks the status of the server.
     """
     return "pong"
+
+
 
 # Main function
 if __name__ == '__main__':

@@ -5,6 +5,7 @@ import app.LanguageModel as lm
 import app.DBManager as dbm
 
 pickle_data = "/app/pickle-data/"
+llm_datasets = "/app/llm-training-data/"
 
 def LoadLLM(name: str):
     """
@@ -45,7 +46,7 @@ def createLLM(name: str, model: str):
     return "creation success"
 
 
-def saveTrainingData(dataName: str, dataContent: dict):
+def saveTrainingData(dataName: str, dataContent: str):
     """
     This function receives the training data for the LLM.
     Given the name of the LLM, it saves the training data to a Postgres table.
