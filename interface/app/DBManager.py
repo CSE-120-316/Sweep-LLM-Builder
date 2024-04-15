@@ -9,7 +9,7 @@ class DBManager:
             dbname="mydb",
             user="UCMStudents6",
             password="KRKT86V9wr8tkGHkQN6tM8mHDmk2R7",
-            host="database",
+            host=key.database_host,
             port="5432"
         )
         self.cur = self.conn.cursor()
