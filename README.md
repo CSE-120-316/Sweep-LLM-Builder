@@ -14,9 +14,9 @@ Connect to the database:
 # Commands for LLM setup
 cd LLM_Code
 
-python -m venv LLAMA
+python -m venv LLAMA # IF USING ENVIRONMENT
 
-source LLAMA/bin/activate
+source LLAMA/bin/activate # IF USING ENVIRONMENT
 
 pip install -r llm_requirements.txt
 
