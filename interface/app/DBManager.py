@@ -103,7 +103,7 @@ class DBManager:
         # a new line in the .json file.
         self.cur.execute(f"SELECT * FROM {dataName}")
         data = self.cur.fetchall()
-        with open(f"{key.datasets_location}{dataName}.json", "w") as f:
+        with open(key.datasets_location + dataName + ".json", "w") as f:
             for entry in data:
                 f.write(entry[1] + "\n")
         self.cur.close()

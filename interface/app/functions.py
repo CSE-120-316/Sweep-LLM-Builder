@@ -22,7 +22,7 @@ def saveChatBot(chatbot: cb.ChatBot):
     This function saves the LLM instance to a file using pickle.
     """
     # Save the LLM object to a pickle file
-    with open(pickle_data + cb.name + ".pkl", "wb") as f:
+    with open(pickle_data + chatbot.name + ".pkl", "wb") as f:
         dill.dump(chatbot, f)
 
 def createChatBot(name: str, model: str):
@@ -58,7 +58,7 @@ def saveTrainingData(dataName: str, dataContent: str):
     except Exception as e: #TODO Test this
         return e
     
-def trainLLM(name: str, system_message: str = ""):
+def trainLLM(name: str, data_set: str = ""):
     """
     This function begins the training of the LLM.
     It retrieves the training data from the database and trains the model.
@@ -67,18 +67,15 @@ def trainLLM(name: str, system_message: str = ""):
         name (str): The name of the LLM
     """
     try:
-        llm = loadChatBot(name)
+        chatbot = loadChatBot(name)
     except:
         return "LLM not found."
 
     # Train the model
-    if system_message == "":
-        llm.train()
-    else:
-        llm.train(system_message)
-        
+    chatbot.train(data_set)
+    
     # Save the LLM object to a pickle file
-    saveChatBot(llm)
+    saveChatBot(chatbot)
 
     return "LLM training has begun"
     

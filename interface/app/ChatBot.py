@@ -12,8 +12,8 @@ class ChatBot:
         self.model = model
         self.status = "Untrained"
 
-        self.trainer = LLamaTrainer.LlamaTrainer()
-        self.client = LLamaChatBot.ChatBot()
+        self.trainer = None
+        self.client = None
         
     def train(self, data_set: str):
         """

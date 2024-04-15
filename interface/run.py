@@ -38,7 +38,7 @@ def trainChatBot():
     This function begins the training of the ChatBot given the name of 
     a chatbot and the name of the dataset.
     """
-    message = f.trainLLM(request.form['name'], request.form['system_message'])
+    message = f.trainLLM(request.form['name'], request.form['data_name'])
     response = {
         "LLM": f.getInfo(request.form['name']),
         "message": message
