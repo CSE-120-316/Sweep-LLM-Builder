@@ -25,15 +25,7 @@ class ChatBot:
             data_set (str): The name of the dataset to train the LLM
 
         """
-
-        db = dbm.DBManager()
-
-        # Check if dataset exists in Postgres database
-        if not db.checkDataset(data_set):
-            return "Dataset does not exist"
-        
-        # Prepare the training data
-        datalocation = db.prepDataset(data_set)
+        datalocation = dbm.checkDataset(data_set) #TODO Error handling
 
         # Train the model
         self.trainer = LLamaTrainer.LlamaTrainer(self.model, datalocation, 2e-4)
@@ -43,7 +35,6 @@ class ChatBot:
 
     def message(self, message: str):
         """
-        #! This will look very different when we implement our own local language model.
         This function sends a message to the LLM and returns the response.
 
         Args:
@@ -52,14 +43,8 @@ class ChatBot:
         Returns:
             str: The response from the LLM
         """
-        self.messages.append({"role": "user", "content": message}) #TODO: Implement some kind of chatlog system
 
-        completion = self.client.chat.completions.create(
-            model = self.model,
-            messages = self.messages,
-        )
-
-        return str(completion.choices[0].message)
+        pass
 
 
     def check_status(self):

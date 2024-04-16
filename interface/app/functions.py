@@ -48,13 +48,10 @@ def saveTrainingData(dataName: str, dataContent: str):
         dataContent (dict): The training data to save to the database
     """
 
-    # Connect to the database
-    DBManager = dbm.DBManager()
 
     try:
         # Save the training data to the table
-        DBManager.addDocument(dataName, dataContent)
-        return "Dataset saved successfully"
+        dbm.addDocument(dataName, dataContent)
     except Exception as e: #TODO Test this
         return e
     
