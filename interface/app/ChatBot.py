@@ -25,7 +25,7 @@ class ChatBot:
             data_set (str): The name of the dataset to train the LLM
 
         """
-        datalocation = dbm.checkDataset(data_set) #TODO Error handling
+        datalocation = dbm.checkDataset(dataName=data_set) #TODO Error handling
 
         # Train the model
         self.trainer = LLamaTrainer.LlamaTrainer(self.model, datalocation, 2e-4)

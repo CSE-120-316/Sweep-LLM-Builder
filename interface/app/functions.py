@@ -55,7 +55,7 @@ def saveTrainingData(dataName: str, dataContent: str):
     except Exception as e: #TODO Test this
         return e
     
-def trainLLM(name: str, data_set: str = ""):
+def trainChatBot(name: str, data_set: str = ""):
     """
     This function begins the training of the LLM.
     It retrieves the training data from the database and trains the model.

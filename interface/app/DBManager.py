@@ -3,7 +3,7 @@ import os
 import app.key as key
 
 
-def addDocument(self, dataName: str, dataContent: str):
+def addDocument(dataName: str, dataContent: str):
     """
     This function receives the training data for the LLM.
     
@@ -15,7 +15,7 @@ def addDocument(self, dataName: str, dataContent: str):
         str: A message indicating the success or failure of the operation
     """
 
-    f = open(key.datasets_location + dataName + ".json", "w")
+    f = open(key.datasets_location + dataName + ".json", "a")
     # Add datacontent to the .json as a new line
     f.write(dataContent + "\n")
     f.close()
@@ -23,7 +23,7 @@ def addDocument(self, dataName: str, dataContent: str):
     return "Dataset saved successfully"
         
 
-def deleteEntry(self, LLMname: str, index: str): #TODO
+def deleteEntry(LLMname: str, index: str): #TODO
     """
     This function deletes a document from the training data.
     
@@ -37,7 +37,7 @@ def deleteEntry(self, LLMname: str, index: str): #TODO
             
     pass 
 
-def deleteDataSet(self, LLMname: str): #TODO
+def deleteDataSet(LLMname: str): #TODO
     """
     This function deletes the table associated with the LLM.
     
@@ -49,7 +49,7 @@ def deleteDataSet(self, LLMname: str): #TODO
     """
     pass
 
-def checkDataset(self, dataName: str):
+def checkDataset(dataName: str):
     """
     This function checks if a dataset exists in the database.
 
