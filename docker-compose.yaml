@@ -10,3 +10,9 @@ services:
       # ["sh", "/app/setup.sh"]
     ports:
       - "6360:5000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]

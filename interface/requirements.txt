@@ -1,6 +1,4 @@
 flask==2.3.2
-openai
-psycopg2
 dill
 
 # LLM Requirements
