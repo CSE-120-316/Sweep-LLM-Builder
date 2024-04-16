@@ -1,5 +1,6 @@
 from flask import Flask, request
 import app.functions as f
+import torch
 
 # Create Flask application instance
 app = Flask(__name__)
@@ -72,7 +73,7 @@ def ping():
     """
     This function checks the status of the server.
     """
-    return "pong"
+    return str(torch.cuda.is_available())
 
 
 

@@ -1,14 +1,14 @@
 services:
   database:
-    build:
-      context: ./db
-      dockerfile: dockerfile
+    image: postgres:latest
+    restart: always
     volumes:
       - ./volumes/db-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: "UCMStudents6"
+      POSTGRES_USER: "UCMStudents1"
       POSTGRES_PASSWORD: "KRKT86V9wr8tkGHkQN6tM8mHDmk2R7"
-      POSTGRES_DB: "mydb"
+      POSTGRES_DB: "training_db"
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "6361:5432"
 

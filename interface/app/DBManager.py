@@ -6,11 +6,11 @@ import app.key as key
 class DBManager:
     def __init__(self):
         self.conn = psycopg2.connect( #TODO We can not initialize authentication here, we need to take it in.
-            dbname="mydb",
-            user="UCMStudents6",
+            dbname="training_db",
+            user="UCMStudents1",
             password="KRKT86V9wr8tkGHkQN6tM8mHDmk2R7",
             host=key.database_host,
-            port="5432"
+            port=key.database_port
         )
         self.cur = self.conn.cursor()
 
