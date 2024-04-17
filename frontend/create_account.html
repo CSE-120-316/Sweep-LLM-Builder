@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        /* CSS styles */
+        body {
+            text-align: center;
+            background-color: grey;
+        }
+
+        h1 {
+            color: white;
+        }
+
+        form {
+            background-color: darkgrey;
+            padding: 20px;
+            width: 400px;
+            margin: 0 auto;
+            border-radius: 15px; 
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px; /* Reduced margin for better spacing */
+            box-sizing: border-box;
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px; 
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Create Account</h1>
+
+    <form id="createAccountForm" action="login.html" method="post">
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Name" required><br>
+
+        <label for="lastname">Last name:</label>
+        <input type="text" id="lastname" name="lastname" placeholder="Last name" required><br>
+        
+        <!-- <label for="">Username/Email:</label>
+        <input type="text" id="username" name="username" placeholder="Username/Email" required><br> -->
+
+
+        <label for="username">Username/Email:</label>
+        <input type="text" id="username" name="username" placeholder="Username/Email" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Password" required><br>
+
+        <label for="password2">Re-Enter Password:</label>
+        <input type="password" id="password" name="password2" placeholder="Re-Enter Password" required><br>
+
+        <input type="submit" value="Create Account">
+    </form>
+
+</body>
+</html>
