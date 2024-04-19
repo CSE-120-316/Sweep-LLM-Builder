@@ -1,8 +1,0 @@
-# Use the official PostgreSQL image as the base image
-FROM postgres:latest
-
-# !TODO: Collect username and passwords from somewhere else
-# Set environment variables for PostgreSQL
-
-# Expose the PostgreSQL port
-EXPOSE 5432

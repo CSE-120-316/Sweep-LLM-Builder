@@ -1,77 +1,61 @@
 import dill
 from flask import request
 import os
-import app.LanguageModel as lm
+import app.ChatBot as cb
 import app.DBManager as dbm
 
 pickle_data = "/app/pickle-data/"
+llm_datasets = "/app/llm-datasets/"
 
-def LoadLLM(name: str):
+def loadChatBot(name: str):
     """
     This function loads the LLM instances from the pickle files.
     """
     # Load the LLM object from a pickle file
     with open(pickle_data + name + ".pkl", "rb") as f:
-        llm = dill.load(f)
-    
-    # Readd the client to the LLM object
-    #! This is an OpenAI thing that won't be in the final version
-    llm.client = lm.OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
+        chatbot = dill.load(f)
 
-    return llm
+    return chatbot
 
-def SaveLLM(llm: lm.LM):
+def saveChatBot(chatbot: cb.ChatBot):
     """
     This function saves the LLM instance to a file using pickle.
     """
-    # Remove sensitive information from the LLM object 
-    #!This is an OpenAI thing that won't be in the final version
-    llm.client = None 
-
     # Save the LLM object to a pickle file
-    with open(pickle_data + llm.name + ".pkl", "wb") as f:
-        dill.dump(llm, f)
+    with open(pickle_data + chatbot.name + ".pkl", "wb") as f:
+        dill.dump(chatbot, f)
 
-def createLLM(name: str, model: str):
+def createChatBot(name: str, model: str):
     """
     This function creates a new LLM given a name and specified model.
     It saves the LLM instance to a file using pickle.
     """
-    llm = lm.LM(name, model)
+    chatbot = cb.ChatBot(name, model)
     # Save the LLM object to a pickle file
     #TODO: Handles errors such as LLM name already exists, etc.
 
-    SaveLLM(llm)
+    saveChatBot(chatbot)
     return "creation success"
 
 
-def saveTrainingData(LLMname: str, question: str, answer: str):
+def saveTrainingData(dataName: str, dataContent: str):
     """
     This function receives the training data for the LLM.
     Given the name of the LLM, it saves the training data to a Postgres table.
 
     Args:
-        LLMname (str): The name of the LLM
-        question (str): The question to be added to the training data
-        answer (str): The associated answer to the question
+        dataName (str): The name of the LLM
+        dataContent (dict): The training data to save to the database
     """
 
-    try:
-        llm = LoadLLM(LLMname)
-    except:
-        return "LLM not found"
-
-    # Connect to the database
-    DBManager = dbm.DBManager()
 
     try:
         # Save the training data to the table
-        DBManager.addDocument(LLMname, question, answer)
-        return "Question/answer pair added to training data"
+        dbm.addDocument(dataName, dataContent)
     except Exception as e: #TODO Test this
         return e
     
-def trainLLM(name: str, system_message: str = ""):
+def trainChatBot(name: str, data_set: str = ""):
     """
     This function begins the training of the LLM.
     It retrieves the training data from the database and trains the model.
@@ -80,18 +64,15 @@ def trainLLM(name: str, system_message: str = ""):
         name (str): The name of the LLM
     """
     try:
-        llm = LoadLLM(name)
+        chatbot = loadChatBot(name)
     except:
         return "LLM not found."
 
     # Train the model
-    if system_message == "":
-        llm.train()
-    else:
-        llm.train(system_message)
-        
+    chatbot.train(data_set)
+    
     # Save the LLM object to a pickle file
-    SaveLLM(llm)
+    saveChatBot(chatbot)
 
     return "LLM training has begun"
     
@@ -106,7 +87,7 @@ def getInfo(name: str):
         str: A message indicating the status of the LLM
     """
     try:
-        llm = LoadLLM(name)
+        llm = loadChatBot(name)
         info = {
         "name": llm.name,
         "model": llm.model,
@@ -133,7 +114,7 @@ def messageLLM(name: str, message: str):
         str: The response from the LLM
     """
     try:
-        llm = LoadLLM(name)
+        llm = loadChatBot(name)
     except:
         return "LLM not found"
 

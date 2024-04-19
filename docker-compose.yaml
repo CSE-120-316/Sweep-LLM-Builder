@@ -1,31 +1,21 @@
 services:
-  database:
-    build:
-      context: ./db
-      dockerfile: dockerfile
-    volumes:
-      - ./volumes/db-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "6361:5432"
-
   interface:
     build:
       context: ./interface
       dockerfile: dockerfile
-    depends_on:
-      - database
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY} #! Replace with your OpenAI API key. DO NOT COMMIT THIS FILE WITH YOUR API KEY
-      - UNIQUE_LLAMA_URL=${UNIQUE_LLAMA_URL} #! Replace with your unique Llama URL
-
     volumes:
       - ./volumes/pickle-data:/app/pickle-data/
-      - ./volumes/llm-repos:/app/llm-repos/
+      - ./volumes/llm-datasets:/app/llm-datasets/
     command:
       # ["sh", "/app/setup.sh"]
+      # ["nvidia-smi"]
     ports:
       - "6360:5000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids:
+                - "0"
+              capabilities: [gpu]
