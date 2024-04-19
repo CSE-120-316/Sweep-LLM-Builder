@@ -15,6 +15,21 @@ def load_format(file_path):
   
   return data
 
+def combine_json_files(input_dir):
+  """
+  This functions combines JSON files from a given directory
+  """
+  combined_data = [] # Empty list to store JSON files
+
+  for filename in os.listdir(input):
+    if filename.endswith('.json'):
+      file_path = os.path.join(input_dir, filename)
+      combined_data.extend(load_format(file_path))
+
+  return combined_data
+
+
+
 def get_files(db_name, usr, psswd, host, port):
   """
   This function interacts with the provided postgres database in order to retrieve the .json files
