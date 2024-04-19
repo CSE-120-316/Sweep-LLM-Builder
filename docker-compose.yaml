@@ -8,6 +8,7 @@ services:
       - ./volumes/llm-datasets:/app/llm-datasets/
     command:
       # ["sh", "/app/setup.sh"]
+      # ["nvidia-smi"]
     ports:
       - "6360:5000"
     deploy:
@@ -15,4 +16,6 @@ services:
         reservations:
           devices:
             - driver: nvidia
+              device_ids:
+                - "0"
               capabilities: [gpu]
