@@ -1,5 +1,6 @@
 import json
 import os
+import psycopg2
 
 def get_files(db_name, usr, psswd, host, port):
   """
