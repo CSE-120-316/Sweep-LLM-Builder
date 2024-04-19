@@ -2,13 +2,11 @@ import json
 import os
 import psycopg2
 
-
-
 # Defining new functions to take the place of the ones below
 
 def load_format(file_path):
   """
-  This function loads a JSON file and makes sure it reads
+  This function loads a JSON file and makes sure it reads.
   """
   with open(file_path, 'r', encoding='utf-8') as file:
      data = json.load(file)
@@ -17,7 +15,7 @@ def load_format(file_path):
 
 def combine_json_files(input_dir):
   """
-  This functions combines JSON files from a given directory
+  This functions combines JSON files from a given directory.
   """
   combined_data = [] # Empty list to store JSON files
 
@@ -28,7 +26,10 @@ def combine_json_files(input_dir):
 
   return combined_data
 
-
+def save_combined_dataset(output_file, dataset):
+  """
+  Save the combined dataset as a JSON file.
+  """ 
 
 def get_files(db_name, usr, psswd, host, port):
   """
