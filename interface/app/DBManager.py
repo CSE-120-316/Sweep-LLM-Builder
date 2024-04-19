@@ -17,7 +17,7 @@ def addDocument(dataName: str, dataContent: str):
 
     f = open(key.datasets_location + dataName + ".json", "a")
     # Add datacontent to the .json as a new line
-    f.write(dataContent + "\n")
+    f.write(dataContent)
     f.close()
 
     return "Dataset saved successfully"
