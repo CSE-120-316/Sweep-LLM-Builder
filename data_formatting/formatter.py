@@ -2,6 +2,19 @@ import json
 import os
 import psycopg2
 
+
+
+# Defining new functions to take the place of the ones below
+
+def load_format(file_path):
+  """
+  This function loads a JSON file and makes sure it reads
+  """
+  with open(file_path, 'r', encoding='utf-8') as file:
+     data = json.load(file)
+  
+  return data
+
 def get_files(db_name, usr, psswd, host, port):
   """
   This function interacts with the provided postgres database in order to retrieve the .json files
