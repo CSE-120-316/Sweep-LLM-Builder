@@ -2,7 +2,7 @@ import json
 import os
 import psycopg2
 
-# Defining new functions to take the place of the ones below
+# Defining new functions to take the place of the ones below. No longer going to be using postgres sql and instead will be storing and retrieving data from a docker volume
 
 def load_format(file_path):
   """
