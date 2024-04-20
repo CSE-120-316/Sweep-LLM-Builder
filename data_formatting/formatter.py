@@ -2,7 +2,7 @@ import json
 import os
 import psycopg2
 
-# Defining new functions to take the place of the ones below. No longer going to be using postgres sql and instead will be storing and retrieving data from a docker volume
+# Defining new functions to take the place of the ones below. No longer going to be using postgres sql and instead will be storing and retrieving data from docker volume
 
 def load_format(file_path):
   """
@@ -30,51 +30,6 @@ def save_combined_dataset(output_file, dataset):
   """
   Save the combined dataset as a JSON file.
   """ 
-
-def get_files(db_name, usr, psswd, host, port):
-  """
-  This function interacts with the provided postgres database in order to retrieve the .json files
-  that are being stored in its table. These .json files are then loaded into a list.
-  """
-
-  # Connect to DB
-  conn = psycopg2.connect(db_name=db_name, user=usr, password=psswd, host=host, port=port)
-  
-  cursor = conn.cursor()
-
-  # SQL query to get the .json files
-  query = "Retrieve json_files"
-
-  cursor.execute(query)
-
-  # Retrieve info from query
-  rows = cursor.fetchall()
-
-  # Empty list to store .json files
-  json_files = []
-
-  # Assuming a specific format for the .json files similar to what one would expect from the SQuAD (Stanford Question and Answer) data set we can concatenate the files as follows:
-  for filename in json_files:
-        with open(filename, 'r') as file:
-            data = json.load(file)
-            for article in data['data']:
-                for paragraph in article['paragraphs']:
-                    context = paragraph['context']
-                    for qa in paragraph['qas']:
-                        question = qa['question']
-                        for answer in qa['answers']:
-                            rows.append({
-                                'Context (Paragraph)': context,
-                                'Question': question,
-                                'Answer Text': answer['text'],
-                                'Answer Start Position': answer['answer_start']
-                            })
-
-  # Close connection to DB
-  conn.close()
-
-  # Return list
-  return json_files
 
 def join_files(json_list):
   """
