@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweep</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: grey; 
+        }
+        form {
+            background-color: darkgrey;
+            padding: 20px;
+            width: 400px;
+            margin: 100px auto; /* Adjusted margin for centering vertically and horizontally */
+            border-radius: 15px; 
+        }
+        input[type="file"], input[type="submit"] {
+            display: block;
+            margin: 10px auto; /* Center the input elements horizontally */
+            width: 80%; /* Adjusted width for better responsiveness */
+            height: 30px;
+            border-radius: 15px; 
+        }
+        h1 {
+            margin-top: 50px; /* Adjusted margin for better spacing */
+        }
+        label {
+            display: block;
+            cursor: pointer;
+            background-color: grey; /* Set the background color to grey */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            width: 80%; /* Adjusted width for better responsiveness */
+            margin: 10px auto; /* Center the label horizontally */
+            height: 80px;   
+             }
+        #file {
+            display: none; /* Hide the default file input */
+        }
+    </style>
+</head>
+<body>
+    <h1>Drop PDFs Here</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">Choose File</label>
+        <input type="file" name="file" id="file" required>
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>

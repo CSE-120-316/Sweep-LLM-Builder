@@ -16,7 +16,7 @@ def createLLM():
         "message": message
     }
     return response
-    
+  #Here Json file  
 # Route for LLM training data
 @app.route('/trainingData', methods=['POST'])
 def trainingData():

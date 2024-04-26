@@ -1,0 +1,27 @@
+{
+  'sql_prompt': 'Name the player with score of 73-69-74-71=287',
+  'sql_context': 'CREATE TABLE table_name_12 (player VARCHAR, score VARCHAR)',
+  'sql': 'SELECT player FROM table_name_12 WHERE score = 73 - 69 - 74 - 71 = 287',
+  'llmj': {
+    'criterion_a': {
+      'score': 0,
+      'reasoning': 'The instructions required filtering to the player with a specific score calculation. The query does not correctly represent the condition to find a score of 287 and lacks the appropriate SQL syntax for such a calculation.'
+    },
+    'criterion_b': {
+      'score': 0,
+      'reasoning': "The SQL query provided is incorrect and will not execute because the WHERE clause is improperly constructed. It contains an expression ('73 - 69 - 74 - 71') followed by an equality check to '287' without proper separation, causing syntactical errors."
+    },
+    'criterion_c': {
+      'score': 1,
+      'reasoning': 'The SQL code is minimal and lacks complexity, which could make it easy to understand; however, due to the significant syntax error, it cannot be considered maintainable or readable in the context of producing correct results.'
+    },
+    'criterion_d': {
+      'score': 1,
+      'reasoning': 'It is difficult to assess scalability here as the query will not execute due to the syntax error. However, assuming the syntax were corrected, filtering based on a static value as shown does not inherently cause scalability issues.'
+    },
+    'criterion_e': {
+      'score': 0,
+      'reasoning': 'The provided query does not follow SQL standards or best practices. The syntax is incorrect, and the way of expressing the calculation for the score and its comparison to the total is non-standard and would not execute in any SQL database.'
+    }
+  }
+}
