@@ -5,7 +5,8 @@ services:
       dockerfile: dockerfile
     volumes:
       - ./volumes/pickle-data:/app/pickle-data/
-      - ./volumes/llm-datasets:/app/llm-datasets/
+      - ./volumes/datasets:/app/LLM_Code/datasets
+      - /srv/capstone/316/cache:/root/.cache/
     command:
       # ["sh", "/app/setup.sh"]
       # ["nvidia-smi"]

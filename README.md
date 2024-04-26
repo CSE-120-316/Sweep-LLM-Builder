@@ -21,3 +21,5 @@ source LLAMA/bin/activate # IF USING ENVIRONMENT
 pip install -r llm_requirements.txt
 
 python hf_finetune.py
+
+docker exec -it chat-cats-interface-1 /bin/bash

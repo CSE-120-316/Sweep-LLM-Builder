@@ -3,9 +3,9 @@ from flask import request
 import os
 import app.ChatBot as cb
 import app.DBManager as dbm
+import app.key as key
 
 pickle_data = "/app/pickle-data/"
-llm_datasets = "/app/llm-datasets/"
 
 def loadChatBot(name: str):
     """

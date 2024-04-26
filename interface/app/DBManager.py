@@ -61,6 +61,6 @@ def checkDataset(dataName: str):
     """
     # Check if the dataset exists in the database and return it's location
     if os.path.exists(key.datasets_location + dataName + ".json"):
-        return str(key.datasets_location + dataName + ".json")
+        return True
     else:
-        return None
+        return False

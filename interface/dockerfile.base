@@ -1,17 +1,32 @@
-# Use an official Python runtime as the base image
-FROM nvidia/cuda:12.3.1-base-ubuntu20.04
+FROM python:3.11.0-slim-bullseye AS build
 
-# Set the working directory in the container
+# Create app directory
 WORKDIR /app
+# Install app dependencies
+RUN mkdir config
+RUN apt-get -y update; apt-get -y install wget curl
 
-# Install any needed system dependencies
-RUN apt-get update && apt-get install -y python3 python3-pip
+FROM build as build_2
+COPY requirements.txt ./
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the requirements file into the container at /app
-COPY requirements.txt /app/
+# RUN apt-get -y install postgresql
 
-# Install Python dependencies
-RUN pip install -r requirements.txt
+FROM build_2
+
+RUN apt-get -y update;
+# RUN apt-get -y install mesa-vulkan-drivers
+ENV VULKAN_SDK_VERSION=1.3.261.1
+RUN apt-get -y install xz-utils libglvnd0 libgl1 libglx0 libegl1 libgles2 libxcb1-dev wget vulkan-tools
+RUN wget -q --show-progress --progress=bar:force:noscroll https://sdk.lunarg.com/sdk/download/${VULKAN_SDK_VERSION}/linux/vulkansdk-linux-x86_64-${VULKAN_SDK_VERSION}.tar.xz -O /tmp/vulkansdk-linux-x86_64-${VULKAN_SDK_VERSION}.tar.xz
+RUN ls /tmp/ && echo "Installing Vulkan SDK ${VULKAN_SDK_VERSION}" && mkdir -p /opt/vulkan && tar -xf /tmp/vulkansdk-linux-x86_64-${VULKAN_SDK_VERSION}.tar.xz -C /opt/vulkan && mkdir -p /usr/local/include/
+RUN ls /opt/vulkan/${VULKAN_SDK_VERSION}/x86_64/etc && cp -ra /opt/vulkan/${VULKAN_SDK_VERSION}/x86_64/include/* /usr/local/include/ && mkdir -p /usr/local/lib && cp -ra /opt/vulkan/${VULKAN_SDK_VERSION}/x86_64/lib/* /usr/local/lib/ && cp -a /opt/vulkan/${VULKAN_SDK_VERSION}/x86_64/lib/libVkLayer_*.so /usr/local/lib && mkdir -p /usr/local/share/vulkan/explicit_layer.d && cp /opt/vulkan/${VULKAN_SDK_VERSION}/x86_64/etc/vulkan/explicit_layer.d/VkLayer_*.json /usr/local/share/vulkan/explicit_layer.d && mkdir -p /usr/local/share/vulkan/registry && cp -a /opt/vulkan/${VULKAN_SDK_VERSION}/x86_64/share/vulkan/registry/* /usr/local/share/vulkan/registry && cp -a /opt/vulkan/${VULKAN_SDK_VERSION}/x86_64/bin/* /usr/local/bin && ldconfig && rm /tmp/vulkansdk-linux-x86_64-${VULKAN_SDK_VERSION}.tar.xz && rm -rf /opt/vulkan
+RUN apt-get -y install openssh-server
+RUN apt-get -y install git
+
+# https://sdk.lunarg.com/sdk/download/latest/linux/vulkan_sdk.tar.gz
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,graphics,utility
 
 # Clean up any temporary files
 RUN rm -rf /var/lib/apt/lists/*
