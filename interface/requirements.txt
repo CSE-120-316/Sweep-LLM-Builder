@@ -3,6 +3,8 @@ dill
 
 # LLM Requirements
 torch
+torchvision
+tensorboard
 fairscale
 fire
 sentencepiece

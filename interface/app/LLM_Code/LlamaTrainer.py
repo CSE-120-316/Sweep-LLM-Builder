@@ -27,11 +27,17 @@ class LlamaTrainer:
         gc.collect()
         #
         BASE = "meta-llama/Llama-2-7b-chat-hf"
+
         # Loading Local Dataset
         local_dataset = load_dataset("json", data_files=self.dataSet, split="train")
         compute_dtype = getattr(torch, "float16")
         quant_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=compute_dtype, bnb_4bit_use_double_quant=False)
+
+        # Model is downloaded from the HuggingFace Hub
+        print("Downloading Model from HuggingFace Hub")
         model = AutoModelForCausalLM.from_pretrained(BASE, quantization_config=quant_config, device_map={"": 0})
+        print("Model Downloaded")
+        
         model.config.use_cache = False
         model.config.pretraining_tp = 1
         # Using autotokenizer from hf for simplicity

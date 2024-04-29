@@ -6,6 +6,7 @@ services:
     volumes:
       - ./volumes/pickle-data:/app/pickle-data/
       - ./volumes/llm-datasets:/app/llm-datasets/
+      - /srv/capstone/316/cache:/root/.cache/
     command:
       # ["sh", "/app/setup.sh"]
       # ["nvidia-smi"]
