@@ -1,5 +1,5 @@
 # Use the base image as the parent image
-FROM my-base-image:latest
+FROM ajgrant6/chat-cats-base:latest
 
 # Copy the current directory contents into the container at /app
 COPY . /app
