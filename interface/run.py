@@ -5,7 +5,7 @@ import torch
 # Create Flask application instance
 app = Flask(__name__)
 
-# Route for LLM training data
+# Route for LLM training data !JSON STUFF GOES HERE ASHLEY :)
 @app.route('/trainingData', methods=['POST'])
 def trainingData():
     """
