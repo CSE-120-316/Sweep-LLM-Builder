@@ -13,7 +13,7 @@ from huggingface_hub import login
 
 
 class ChatBot:
-    def __init__ (self, newModel = ""): # 2e-4
+    def __init__ (self, newModel = ""):
         self.newModel = newModel
 
         gc.collect()

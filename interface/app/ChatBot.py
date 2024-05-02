@@ -44,6 +44,10 @@ class ChatBot:
         
         self.status = "Trained"
 
+    def inference(self, prompt: str):
+        ChatBotObj = ChatBot(self.name)
+        return(ChatBotObj.respond(prompt))
+
     def message(self, message: str):
         """
         This function sends a message to the LLM and returns the response.

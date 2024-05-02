@@ -119,8 +119,8 @@ def messageLLM(name: str, message: str):
         str: The response from the LLM
     """
     try:
-        llm = loadChatBot(name)
+        chatbot = loadChatBot(name)
     except:
         return "LLM not found"
 
-    return llm.message(message)
+    return chatbot.message(message)
