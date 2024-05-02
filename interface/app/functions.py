@@ -1,3 +1,8 @@
+# AJ Grant
+# 2024-05-01
+# functions.py
+# Communicates with the chatbots, database manager, and the Flask routes, connecting everything together.
+
 import dill
 from flask import request
 import os

@@ -1,3 +1,8 @@
+# AJ Grant
+# 2024-05-01
+# Dockerfile for the chat-cats application
+
+
 # Use the base image as the parent image
 FROM ajgrant6/chat-cats-base:latest
 

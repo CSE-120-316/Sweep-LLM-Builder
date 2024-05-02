@@ -1,3 +1,9 @@
+# AJ Grant
+# 2024-05-01
+# DBManager.py
+# Communicates manages the storage and retrieval of fine-tuning datasets
+
+
 import json
 import os
 import app.key as key

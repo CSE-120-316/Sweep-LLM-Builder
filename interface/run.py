@@ -1,3 +1,9 @@
+# AJ Grant
+# 2024-05-01
+# run.py
+# Web routes for our application.
+
+
 from flask import Flask, request
 import app.functions as f
 import torch
