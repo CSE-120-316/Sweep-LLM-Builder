@@ -123,4 +123,6 @@ def messageLLM(name: str, message: str):
     except:
         return "LLM not found"
 
-    return chatbot.message(message)
+
+
+    return chatbot.inference(message)
