@@ -1,4 +1,5 @@
 # AJ Grant
+# 2024-05-01
 # ChatBot.py
 # Communicates with the LLM_Code and DBManager to finetune and interact with the LLM.
 
