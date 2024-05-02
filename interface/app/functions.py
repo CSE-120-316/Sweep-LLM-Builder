@@ -40,10 +40,16 @@ def createChatBot(name: str, model: str):
     #TODO: Handles errors such as LLM name already exists, etc.
 
     saveChatBot(chatbot)
-    return "creation success"
+
+    message = {
+        "name": chatbot.name,
+        "model": chatbot.model,
+        "status": chatbot.status
+    }
+    return message
 
 
-def saveTrainingData(dataName: str, dataContent: str):
+def uploadTrainingData(dataName: str, dataContent: str):
     """
     This function receives the training data for the LLM.
     Given the name of the LLM, it saves the training data to a Postgres table.
@@ -60,6 +66,8 @@ def saveTrainingData(dataName: str, dataContent: str):
     except Exception as e: #TODO Test this
         return e
     
+    return "Data uploaded successfully"
+    
 def trainChatBot(name: str, data_set: str = ""):
     """
     This function begins the training of the LLM.
@@ -74,12 +82,16 @@ def trainChatBot(name: str, data_set: str = ""):
         return "LLM not found."
 
     # Train the model
-    chatbot.train(data_set)
+    try:
+        chatbot.train(data_set)
+    except Exception as e:
+        return e
     
+    chatbot.status = "Trained"
     # Save the LLM object to a pickle file
     saveChatBot(chatbot)
 
-    return "LLM training has begun"
+    return getInfo(name)
     
 def getInfo(name: str):
     """

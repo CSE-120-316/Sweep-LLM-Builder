@@ -12,13 +12,13 @@ import torch
 app = Flask(__name__)
 
 # Route for LLM training data !JSON STUFF GOES HERE ASHLEY :)
-@app.route('/trainingData', methods=['POST'])
+@app.route('/trainingDataUpload', methods=['POST'])
 def trainingData():
     """
     This function receives the training data for the LLM.
     Given the name of the data, it saves the training data to a Postgres table.
     """
-    message = f.saveTrainingData(request.form['data_name'], request.form['data_content'])
+    message = f.uploadTrainingData(request.form['data_name'], request.form['data_content'])
     response = {
         "dataSet": "data_name",
         "message": message
@@ -47,7 +47,7 @@ def trainChatBot():
     """
     message = f.trainChatBot(request.form['name'], request.form['data_name'])
     response = {
-        "LLM": f.getInfo(request.form['name']),
+        "ChatBot": f.getInfo(request.form['name']),
         "message": message
     }
     return response
@@ -79,8 +79,7 @@ def ping():
     """
     This function checks the status of the server.
     """
-    return str(torch.cuda.is_available())
-
+    return "pong"
 
 
 # Main function
