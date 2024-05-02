@@ -54,13 +54,13 @@ def trainChatBot():
 
 # Route to message the LLM
 @app.route('/messageChatBot', methods=['POST'])
-def messageLLM():
+def messageChatBot():
     """
     This function sends a message to the LLM.
     """
     message = f.messageLLM(request.form['name'], request.form['message'])
     response = {
-        "LLM": f.getInfo(request.form['name']),
+        "ChatBot": f.getInfo(request.form['name']),
         "message": message
     }
     return response
@@ -72,6 +72,17 @@ def checkStatus():
     This function checks the status of the LLM.
     """
     response = f.getInfo(request.args['name'])
+    return response
+
+# Route to list all ChatBots
+@app.route('/listChatBots', methods=['GET'])
+def listChatBots():
+    """
+    This function lists all the ChatBots.
+
+    status (str): Untrained, Training, Trained, All
+    """
+    response = f.listChatBots(request.args['status'])
     return response
 
 @app.route('/ping', methods=['GET'])
