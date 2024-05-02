@@ -1,3 +1,8 @@
+# AJ Grant
+# run.py
+# Web routes for our application.
+
+
 from flask import Flask, request
 import app.functions as f
 import torch
