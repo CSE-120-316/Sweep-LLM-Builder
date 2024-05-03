@@ -12,12 +12,13 @@ import app.key as key
 import os
 
 class ChatBot:
-    def __init__(self, name: str, model: str):
+    def __init__(self, name: str, lr: str):
         self.name = name
-        self.model = model
+        self.lr = lr
         self.status = "Untrained"
 
         self.trainer = None
+        self.inference = None
         self.client = None
         
     def train(self, data_set: str):
@@ -39,14 +40,11 @@ class ChatBot:
 
 
         # Train the model
-        self.trainer = LLamaTrainer.LlamaTrainer(self.name, datalocation, self.model)
+        self.trainer = LLamaTrainer.LlamaTrainer(self.name, datalocation, self.lr)
         self.trainer.trainLLM()
         
         self.status = "Trained"
 
-    def inference(self, prompt: str):
-        ChatBotObj = ChatBot(self.name)
-        return(ChatBotObj.respond(prompt))
 
     def message(self, message: str):
         """
@@ -58,8 +56,8 @@ class ChatBot:
         Returns:
             str: The response from the LLM
         """
-
-        pass
+        self.inference = LLamaChatBot.LLamaChatBot(self.name) # Choose the same "modelName" name you chose from LLAMATrainer.py
+        return(self.inference.respond(message))
 
 
     def check_status(self):

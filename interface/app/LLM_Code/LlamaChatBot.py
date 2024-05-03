@@ -12,7 +12,7 @@ import gc
 from huggingface_hub import login
 
 
-class ChatBot:
+class LlamaChatBot:
     def __init__ (self, newModel = ""):
         self.newModel = newModel
 
@@ -44,3 +44,7 @@ class ChatBot:
         pipe = pipeline(task="text-generation", model=self.model, tokenizer=self.tokenizer, max_length=100)
         result = pipe(f" <s>[INST] {prompt} [/INST]")
         return(result[0]['generated_text'],"\n")
+
+if __name__ == "__main__":
+    ChatBotObj = LlamaChatBot("")
+    print(ChatBotObj.respond("Hello does this work?"))
