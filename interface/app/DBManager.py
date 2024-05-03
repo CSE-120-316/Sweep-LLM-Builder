@@ -27,21 +27,6 @@ def addDocument(dataName: str, dataContent: str):
     f.close()
 
     return "Dataset saved successfully"
-        
-
-def deleteEntry(LLMname: str, index: str): #TODO
-    """
-    This function deletes a document from the training data.
-    
-    Args:
-        LLMname (str): The name of the LLM
-        title (str): The title of the document to delete
-        
-    Returns:
-        str: A message indicating the success or failure of the operation
-    """
-            
-    pass 
 
 def deleteDataSet(LLMname: str): #TODO
     """
