@@ -46,7 +46,7 @@ class LlamaTrainer:
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.padding_side = "right"
         peft_params = LoraConfig(lora_alpha=16, lora_dropout=0.1, r=64, bias="none", task_type="CAUSAL_LM")
-        outputdir = "./results/" + self.dataSet
+        outputdir = "./results/" + self.newModel
         training_params = TrainingArguments(output_dir=outputdir, num_train_epochs=1, per_device_train_batch_size=4, gradient_accumulation_steps=1, optim="paged_adamw_32bit", save_steps=25, logging_steps=25, learning_rate=2e-4, weight_decay=0.001, fp16=False, bf16=False, max_grad_norm=0.3, max_steps=-1, warmup_ratio=0.03, group_by_length=True, lr_scheduler_type="constant", report_to="tensorboard")
         trainer = SFTTrainer(model=model, train_dataset=local_dataset, peft_config=peft_params, dataset_text_field="text", max_seq_length=None, tokenizer=tokenizer, args=training_params, packing=False)
         gc.collect()
@@ -54,3 +54,7 @@ class LlamaTrainer:
         trainer.train()
         trainer.model.save_pretrained(self.newModel)
         trainer.tokenizer.save_pretrained(self.newModel)
+
+if __name__ == "__main__":
+    LLMObj = LlamaTrainer("test", "dataset/financefake.json", "2e-4") # ("modelName", "path/to/dataset", "lr")
+    LLMObj.trainLLM()
