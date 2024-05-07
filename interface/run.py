@@ -3,13 +3,15 @@
 # run.py
 # Web routes for our application.
 
-
 from flask import Flask, request
 import app.functions as f
 import torch
+from flask_cors import CORS  # Import CORS
 
 # Create Flask application instance
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes and methods
+
 
 # Route for LLM training data !JSON STUFF GOES HERE ASHLEY :)
 @app.route('/trainingDataUpload', methods=['POST'])
