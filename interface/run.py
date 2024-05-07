@@ -105,6 +105,39 @@ def ping():
     """
     return "pong"
 
+@app.route('/deleteChatBot', methods=['POST'])
+def deleteChatBot():
+    """
+    This function deletes the ChatBot.
+    """
+    message = f.deleteChatBot(request.form['name'])
+    response = {
+        "message": message
+    }
+    return response
+
+@app.route('/deleteDataset', methods=['POST'])
+def deleteDataset():
+    """
+    This function deletes the dataset.
+    """
+    message = f.deleteDataset(request.form['data_name'])
+    response = {
+        "message": message
+    }
+    return response
+
+@app.route('/deleteEverything', methods=['POST'])
+def deleteEverything():
+    """
+    This function deletes all the ChatBots and datasets.
+    """
+    message = f.deleteEverything()
+    response = {
+        "message": message
+    }
+    return response
+
 
 # Main function
 if __name__ == '__main__':
