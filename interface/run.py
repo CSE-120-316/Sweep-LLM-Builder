@@ -89,6 +89,15 @@ def listChatBots():
     response = f.listChatBots(request.args['status'])
     return response
 
+# Route to list datasets
+@app.route('/listDatasets', methods=['GET'])
+def listDatasets():
+    """
+    This function lists all the datasets.
+    """
+    response = f.listDatasets()
+    return response
+
 @app.route('/ping', methods=['GET'])
 def ping():
     """

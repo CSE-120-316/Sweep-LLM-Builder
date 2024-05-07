@@ -43,7 +43,7 @@ def createChatBot(name: str, lr: str):
 
     message = {
         "name": chatbot.name,
-        "model": chatbot.model,
+        "lr": chatbot.lr,
         "status": chatbot.status
     }
     return message
@@ -83,6 +83,7 @@ def trainChatBot(name: str, data_set: str = ""):
     try:
         chatbot.train(data_set)
     except Exception as e:
+        print(e)
         return e
     
     chatbot.status = "Trained"
@@ -113,6 +114,18 @@ def listChatBots(status: str): #! TEST THIS
         names = [chatbot.name for chatbot in chatbots if chatbot.status == status]
 
     return names
+
+def listDatasets():
+    """
+    This function lists all the datasets.
+    """
+    # Get all the datasets
+    datasets = dbm.listDatasets()
+
+    # From the list of datasets, extract the names by removing the file extension (.json)
+    datasets = [dataset[:-5] for dataset in datasets]
+
+    return datasets
 
 def getInfo(name: str):
     """
