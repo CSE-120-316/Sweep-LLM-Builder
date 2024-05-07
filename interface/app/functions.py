@@ -30,12 +30,12 @@ def saveChatBot(chatbot: cb.ChatBot):
     with open(pickle_data + chatbot.name + ".pkl", "wb") as f:
         dill.dump(chatbot, f)
 
-def createChatBot(name: str, model: str):
+def createChatBot(name: str, lr: str):
     """
     This function creates a new LLM given a name and specified model.
     It saves the LLM instance to a file using pickle.
     """
-    chatbot = cb.ChatBot(name, model)
+    chatbot = cb.ChatBot(name, lr)
     # Save the LLM object to a pickle file
     #TODO: Handles errors such as LLM name already exists, etc.
 
@@ -128,13 +128,13 @@ def getInfo(name: str):
         llm = loadChatBot(name)
         info = {
         "name": llm.name,
-        "model": llm.model,
+        "lr": llm.lr,
         "status": llm.status
         }
     except:
         info = {
             "name": name,
-            "model": "N/A",
+            "lr": "N/A",
             "status": "LLM not found"
         }
 
@@ -158,4 +158,4 @@ def messageLLM(name: str, message: str):
 
 
 
-    return chatbot.inference(message)
+    return chatbot.message(message)

@@ -33,9 +33,9 @@ def trainingData():
 @app.route('/createChatBot', methods=['POST'])
 def createChatBot():
     """
-    This function creates a new ChatBot given a name and specified model.
+    This function creates a new ChatBot given a name and specified learning rate.
     """
-    message = f.createChatBot(request.form['name'], request.form['model'])
+    message = f.createChatBot(request.form['name'], request.form['lr'])
     response = {
         "ChatBot": f.getInfo(request.form['name']),
         "message": message
