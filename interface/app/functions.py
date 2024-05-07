@@ -48,22 +48,21 @@ def createChatBot(name: str, model: str):
     }
     return message
 
-def uploadTrainingData(dataName: str, dataContent: str):
+def uploadTrainingData(dataName: str, file):
     """
-    This function receives the training data for the LLM.
-    Given the name of the LLM, it saves the training data to a Postgres table.
+    This function receives the training data for the LLM as a file.
+    Given the name of the LLM, it saves the training data to the appropriate storage.
 
     Args:
         dataName (str): The name of the LLM
-        dataContent (dict): The training data to save to the database
+        file (FileStorage): The file containing the training data
     """
-
-
     try:
-        # Save the training data to the table
-        dbm.addDocument(dataName, dataContent)
-    except Exception as e: #TODO Test this
-        return e
+        # Save the training data to the table or file system
+        return dbm.addDocument(dataName, file)
+    except Exception as e:
+        return str(e)  # Ensure the message is stringified for proper handling
+
     
     return "Data uploaded successfully"
 

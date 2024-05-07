@@ -18,7 +18,9 @@ def trainingData():
     This function receives the training data for the LLM.
     Given the name of the data, it saves the training data to a Postgres table.
     """
-    message = f.uploadTrainingData(request.form['data_name'], request.form['data_content'])
+
+    file = request.files['dataset']
+    message = f.uploadTrainingData(request.form['data_name'], file)
     response = {
         "dataSet": "data_name",
         "message": message

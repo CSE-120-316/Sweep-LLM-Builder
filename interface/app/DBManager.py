@@ -7,26 +7,30 @@
 import json
 import os
 import app.key as key
+from werkzeug.utils import secure_filename
 
 
-def addDocument(dataName: str, dataContent: str):
+def addDocument(dataName: str, file):
     """
-    This function receives the training data for the LLM.
-    
+    This function saves the training data for the LLM.
+
     Args:
         dataName (str): The name of the LLM
-        dataContent (dict): The training data to save to the database
+        file (FileStorage): The file containing the training data
 
     Returns:
         str: A message indicating the success or failure of the operation
     """
+    file_path = key.datasets_location + secure_filename(dataName) + ".json"
 
-    f = open(key.datasets_location + dataName + ".json", "a")
-    # Add datacontent to the .json as a new line
-    f.write(dataContent)
-    f.close()
+    try:
+        with open(file_path, 'wb') as f:  # 'wb' for writing in binary mode
+            f.write(file.read())  # Read and write the entire file content
+    except Exception as e:
+        return f"An error occurred: {e}"
 
     return "Dataset saved successfully"
+
 
 def deleteDataSet(LLMname: str): #TODO
     """
