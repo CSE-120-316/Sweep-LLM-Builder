@@ -8,11 +8,42 @@
             text-align: center;
             background-color: grey; 
         }
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: grey; /* Same color as background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999; /* Ensure it's on top */
+        }
+        .loading-gif {
+            width: 500px; /* Adjust size as needed */
+            height: 500px; /* Adjust size as needed */
+        }
+        .product-images {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px; /* Adjust margin as needed */
+        }
+        h1 {
+            position: relative;
+            z-index: 1000; /* Ensure it's above the loading GIF */
+        }
     </style>
-     <title>Sweep</title>
-     <h1>Fine-tuning Model...</h1>
+    <title>Sweep</title>
 </head>
 <body>
+    <!-- Loading GIF Container -->
+    <div class="loading-container">
+        <img src="https://media1.giphy.com/avatars/KaanaIT/Om5JNqVKu3le.gif" alt="Loading GIF" class="loading-gif">
+    </div>
+    <!-- Content -->
+    <h1>Fine-tuning Model...</h1>
+    <!-- Product Images -->
     
 </body>
 </html>

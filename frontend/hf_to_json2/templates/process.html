@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            text-align: center;
+            background-color: grey; 
+        }
+        .button {
+            width: 150px; /* Increased width for better alignment */
+            height: 50px;
+            margin: 10px;
+            background-color: darkgrey;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        form {
+            background-color: darkgrey;
+            padding: 20px;
+            width: 110px; /* Set to match button width */
+            margin: 10px; /* Adjusted margin for better spacing */
+            border: 1px solid #000000;
+            border-radius: 5px;
+        }
+        input[type="file"], input[type="submit"] {
+            display: block;
+            margin: 10px auto; 
+            width: 100%; /* Adjusted width to fill the form */
+            height: 30px; /* Adjusted height to match button height */
+            border: 1px solid #000000;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+        label {
+            display: block;
+            cursor: pointer;
+            background-color: grey;
+            color: white;
+            padding: 10px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            width: 80%; /* Adjusted width to fill the form */
+            margin: 10px auto; 
+            height: 30px; /* Adjusted height to match button height */
+            font-size: 15px; /* Adjusted font size for better visibility */
+        }
+        #file {
+            display: none; 
+        }
+
+    </style>
+    <title>Sweep</title>
+</head>
+<body>
+    <h1>Training types</h1>
+    <div class="row">
+        <select class="button" onchange="location = this.value;">
+            <option value="#" selected disabled>Pick Chatbot</option>
+            <option value="pick_chatbot.html">Pick Chatbot</option>
+            <option value="pick_dataset.html">Pick Dataset</option>
+            <option value="finetune.html">Finetune</option>
+        </select>
+
+        <select class="button" onchange="location = this.value;">
+            <option value="#" selected disabled>Pick dataset</option>
+            <option value="pick_chatbot.html">Pick Chatbot</option>
+            <option value="pick_dataset.html">Pick Dataset</option>
+            <option value="finetune.html">Finetune</option>
+        </select>
+
+        <button class="button">Finetune</button>
+        
+    </div>
+    
+    <div class="row">
+        <button class="button">Pick Chatbot</button>
+        
+        <button class="button">Make new dataset</button>
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="file">Upload dataset</label>
+            <input type="file" name="file" id="file" required>
+            <input type="submit" value="Upload">
+        </form>
+        
+    </div>
+</body>
+</html>

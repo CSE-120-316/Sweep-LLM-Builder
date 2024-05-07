@@ -470,7 +470,8 @@ def upload_file():
             return render_template('finetuning.html')
         else:
             return 'Invalid file format'
-    return render_template('index.html')
+    # return render_template('index.html')
+    return render_template('process.html')
 
 @app.route('/create_account')
 def create_account():

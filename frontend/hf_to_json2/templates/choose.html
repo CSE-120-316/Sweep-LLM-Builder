@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            text-align: center;
+            background-color: grey;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        div {
+            display: flex;
+            align-items: center;
+        }
+        button {
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+        }
+    </style>
+    <title>Sweep</title>
+</head>
+<body>
+    
+    <div>
+        <button onclick="openChat()">Chat</button>
+        <button onclick="openFineTuning()">Fine Tuning</button>
+    </div>
+
+    <script>
+        function openChat() {
+            window.location.href = 'pick.html'; // Change to your chat file
+        }
+
+        function openFineTuning() {
+            window.location.href = 'process.html'; // Change to your fine tuning file
+        }
+    </script>
+</body>
+</html>
