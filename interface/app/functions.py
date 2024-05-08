@@ -30,6 +30,40 @@ def saveChatBot(chatbot: cb.ChatBot):
     with open(pickle_data + chatbot.name + ".pkl", "wb") as f:
         dill.dump(chatbot, f)
 
+def deleteChatBot(name: str):
+    """
+    This function deletes the LLM instance from the pickle files.
+    """
+    # Delete the LLM object from a pickle file
+    os.remove(pickle_data + name + ".pkl")
+
+    return "LLM deleted successfully"
+
+def deleteDataset(name: str):
+    """
+    This function deletes the dataset from the file system.
+    """
+    # Delete the dataset from the file system
+    os.remove(llm_datasets + name + ".json")
+
+    return "Dataset deleted successfully"
+
+def deleteEverything():
+    """
+    This function deletes all the LLM instances and datasets.
+    """
+    # Delete all the LLM objects from the pickle files
+    chatbot_files = os.listdir(pickle_data)
+    for file in chatbot_files:
+        os.remove(pickle_data + file)
+
+    # Delete all the datasets from the file system
+    dataset_files = os.listdir(llm_datasets)
+    for file in dataset_files:
+        os.remove(llm_datasets + file)
+            
+    return "All LLMs and datasets have been deleted."
+
 def createChatBot(name: str, lr: str):
     """
     This function creates a new LLM given a name and specified model.
@@ -43,7 +77,7 @@ def createChatBot(name: str, lr: str):
 
     message = {
         "name": chatbot.name,
-        "model": chatbot.model,
+        "lr": chatbot.lr,
         "status": chatbot.status
     }
     return message
@@ -83,6 +117,7 @@ def trainChatBot(name: str, data_set: str = ""):
     try:
         chatbot.train(data_set)
     except Exception as e:
+        print(e)
         return e
     
     chatbot.status = "Trained"
@@ -113,6 +148,18 @@ def listChatBots(status: str): #! TEST THIS
         names = [chatbot.name for chatbot in chatbots if chatbot.status == status]
 
     return names
+
+def listDatasets():
+    """
+    This function lists all the datasets.
+    """
+    # Get all the datasets
+    datasets = dbm.listDatasets()
+
+    # From the list of datasets, extract the names by removing the file extension (.json)
+    datasets = [dataset[:-5] for dataset in datasets]
+
+    return datasets
 
 def getInfo(name: str):
     """

@@ -5,8 +5,8 @@
 
 import app.DBManager as dbm
 import sys
-import app.LLM_Code.LlamaTrainer as LLamaTrainer
-import app.LLM_Code.LlamaChatBot as LLamaChatBot
+import app.LLM_Code.LlamaTrainer as LlamaTrainer
+import app.LLM_Code.LlamaChatBot as LlamaChatBot
 import app.key as key
 
 import os
@@ -40,7 +40,7 @@ class ChatBot:
 
 
         # Train the model
-        self.trainer = LLamaTrainer.LlamaTrainer(self.name, datalocation, self.lr)
+        self.trainer = LlamaTrainer.LlamaTrainer(self.name, datalocation, self.lr)
         self.trainer.trainLLM()
         
         self.status = "Trained"
@@ -56,7 +56,7 @@ class ChatBot:
         Returns:
             str: The response from the LLM
         """
-        self.inference = LLamaChatBot.LLamaChatBot(self.name) # Choose the same "modelName" name you chose from LLAMATrainer.py
+        self.inference = LlamaChatBot.LlamaChatBot(self.name) # Choose the same "modelName" name you chose from LLAMATrainer.py
         return(self.inference.respond(message))
 
 

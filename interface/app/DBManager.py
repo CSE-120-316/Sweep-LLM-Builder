@@ -59,3 +59,13 @@ def checkDataset(dataName: str):
         return True
     else:
         return False
+    
+def listDatasets():
+    """
+    This function lists all the datasets.
+
+    Returns:
+        list: A list of all the datasets
+    """
+    datasets = os.listdir(key.datasets_location)
+    return datasets

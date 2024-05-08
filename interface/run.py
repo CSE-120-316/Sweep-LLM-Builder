@@ -89,12 +89,54 @@ def listChatBots():
     response = f.listChatBots(request.args['status'])
     return response
 
+# Route to list datasets
+@app.route('/listDatasets', methods=['GET'])
+def listDatasets():
+    """
+    This function lists all the datasets.
+    """
+    response = f.listDatasets()
+    return response
+
 @app.route('/ping', methods=['GET'])
 def ping():
     """
     This function checks the status of the server.
     """
     return "pong"
+
+@app.route('/deleteChatBot', methods=['POST'])
+def deleteChatBot():
+    """
+    This function deletes the ChatBot.
+    """
+    message = f.deleteChatBot(request.form['name'])
+    response = {
+        "message": message
+    }
+    return response
+
+@app.route('/deleteDataset', methods=['POST'])
+def deleteDataset():
+    """
+    This function deletes the dataset.
+    """
+    message = f.deleteDataset(request.form['data_name'])
+    response = {
+        "message": message
+    }
+    return response
+
+@app.route('/deleteEverything', methods=['POST'])
+def deleteEverything():
+    """
+    This function deletes all the ChatBots and datasets.
+    """
+    message = f.deleteEverything()
+    response = {
+        "message": message
+    }
+    return response
 
 
 # Main function
