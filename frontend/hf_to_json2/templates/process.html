@@ -9,7 +9,7 @@
             background-color: grey; 
         }
         .button {
-            width: 150px; /* Increased width for better alignment */
+            width: 150px;
             height: 50px;
             margin: 10px;
             background-color: darkgrey;
@@ -28,16 +28,16 @@
         form {
             background-color: darkgrey;
             padding: 20px;
-            width: 110px; /* Set to match button width */
-            margin: 10px; /* Adjusted margin for better spacing */
+            width: 120px;
+            margin: 10px;
             border: 1px solid #000000;
             border-radius: 5px;
         }
-        input[type="file"], input[type="submit"] {
+        input[type="file"], input[type="submit"], input[type="text"] {
             display: block;
             margin: 10px auto; 
-            width: 100%; /* Adjusted width to fill the form */
-            height: 30px; /* Adjusted height to match button height */
+            width: 120px; /* Modified width for dataset name input */
+            height: 30px;
             border: 1px solid #000000;
             border-radius: 5px;
             font-size: 15px;
@@ -50,50 +50,206 @@
             padding: 10px;
             border: 1px solid #000000;
             border-radius: 5px;
-            width: 80%; /* Adjusted width to fill the form */
+            width: 80%;
             margin: 10px auto; 
-            height: 30px; /* Adjusted height to match button height */
-            font-size: 15px; /* Adjusted font size for better visibility */
+            height: 30px;
+            font-size: 15px;
         }
         #file {
             display: none; 
+        }
+        .textbox-label {
+            width: 130px; /* Same width as the button */
+            height: 30px; /* Same height as the button */
+            margin: 10px; /* Same margin as the button */
+            background-color: darkgrey; /* Same background color as the button */
+            border: 1px solid #000000; /* Same border as the button */
+            border-radius: 5px; /* Same border radius as the button */
+            font-size: 18px; /* Same font size as the button */
+            color: white; /* Same text color as the button */
+            cursor: pointer; /* Same cursor as the button */
+        }
+
+        #textbox {
+            width: 130px; /* Same width as the button */
+            height: 45px; /* Same height as the button */
+            margin: 10px; /* Same margin as the button */
+            font-size: 18px; /* Same font size as the button */
+            border: 1px solid #000000; /* Same border as the button */
+            border-radius: 5px; /* Same border radius as the button */
+            line-height: 50px; /* Same as the height of the textbox */
+            text-align: center; /* Center the text horizontally */
+        }
+        p {
+            margin: 10px;
+            font-size: 18px;
+            color: white;
+        }
+
+        #returnBtn {
+            position: absolute; /* Position the button */
+            top: 10px; /* Distance from the top */
+            left: 10px; /* Distance from the left */
+            width: 100px; /* Adjusted width */
+            height: 30px; /* Adjusted height */
+            font-size: 14px; /* Adjusted font size */
+            margin: 0; /* No margin */
         }
 
     </style>
     <title>Sweep</title>
 </head>
 <body>
-    <h1>Training types</h1>
+    <!-- Return button -->
+    <button id="returnBtn" class="button">Return</button>
+
+    <h1>Create and Fine-Tune</h1>
     <div class="row">
-        <select class="button" onchange="location = this.value;">
-            <option value="#" selected disabled>Pick Chatbot</option>
-            <option value="pick_chatbot.html">Pick Chatbot</option>
-            <option value="pick_dataset.html">Pick Dataset</option>
-            <option value="finetune.html">Finetune</option>
-        </select>
+        <button class="button">Pick Chatbot</button>
+    </div>
 
-        <select class="button" onchange="location = this.value;">
-            <option value="#" selected disabled>Pick dataset</option>
-            <option value="pick_chatbot.html">Pick Chatbot</option>
-            <option value="pick_dataset.html">Pick Dataset</option>
-            <option value="finetune.html">Finetune</option>
+    <div class="row">
+        <select id="chatbotSelect" class="button">
+            <option value="#" selected disabled>Loading Chatbots...</option>
         </select>
-
-        <button class="button">Finetune</button>
-        
+        <div class="row">
+            <select id="datasetSelect" class="button">
+                <option value="#" selected disabled>Loading Datasets...</option>
+            </select>
+        </div>
+        <button id="finetuneBtn" class="button">Finetune</button>
     </div>
     
     <div class="row">
-        <button class="button">Pick Chatbot</button>
+        <input type="textbox" id="textbox" name="textbox" placeholder="Textbox" required><br>
+        <label for="textbox" class="button textbox-label">Create</label>
         
-        <button class="button">Make new dataset</button>
-
-        <form action="/upload" method="post" enctype="multipart/form-data">
+        <form id="uploadForm">
+            <!-- <label for="data_name">Dataset Name:</label> -->
+            <p> Dataset Name:</p>
+            <input type="text" name="data_name" id="data_name" required><br>
             <label for="file">Upload dataset</label>
-            <input type="file" name="file" id="file" required>
-            <input type="submit" value="Upload">
+            <input type="file" name="dataset" id="file" required><br>
+            <input type="submit" class="button" value="Upload">
         </form>
         
     </div>
+
+    <script>
+        // Fetch the list of chatbots from the provided URL
+        fetch('http://vm.sweep-ai.com:6360/listChatBots?status=All')
+            .then(response => response.json())
+            .then(data => {
+                const chatbotSelect = document.getElementById('chatbotSelect');
+                chatbotSelect.innerHTML = '';
+                data.forEach(chatbot => {
+                    const option = document.createElement('option');
+                    option.value = chatbot;
+                    option.textContent = chatbot;
+                    chatbotSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching chatbots:', error));
+
+        // Fetch the list of datasets from the provided URL
+        fetch('http://vm.sweep-ai.com:6360/listDatasets')
+            .then(response => response.json())
+            .then(data => {
+                const datasetSelect = document.getElementById('datasetSelect');
+                datasetSelect.innerHTML = '';
+                data.forEach(dataset => {
+                    const option = document.createElement('option');
+                    option.value = dataset;
+                    option.textContent = dataset;
+                    datasetSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching datasets:', error));
+
+        // Add event listener to the "Finetune" button
+        document.getElementById('finetuneBtn').addEventListener('click', function() {
+            const chatbotName = document.getElementById('chatbotSelect').value;
+            const datasetName = document.getElementById('datasetSelect').value;
+        
+            if (!chatbotName || chatbotName === "#" || !datasetName || datasetName === "#") {
+                alert('Please select both a chatbot and a dataset.');
+                return;
+            }
+        
+            fetch('http://vm.sweep-ai.com:6360/trainChatBot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${encodeURIComponent(chatbotName)}&data_name=${encodeURIComponent(datasetName)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Training started:', data);
+                alert(`Training started for ${data.ChatBot.name}`);
+            })
+            .catch(error => {
+                console.error('Error training chatbot:', error);
+                alert('Error starting training. Check console for details.');
+            });
+        });
+
+        // Add event listener to the "Create" button
+        document.querySelector('.textbox-label').addEventListener('click', function() {
+            const textboxValue = document.getElementById('textbox').value;
+
+            if (!textboxValue) {
+                alert('Please enter a value in the textbox.');
+                return;
+            }
+
+            fetch('http://vm.sweep-ai.com:6360/createChatBot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${encodeURIComponent(textboxValue)}&lr=2e-4`
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('ChatBot created:', data);
+                alert(`ChatBot "${textboxValue}" created successfully.`);
+                // Auto-refresh the page after creation
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error creating ChatBot:', error);
+                alert('Error creating ChatBot. Check console for details.');
+            });
+        });
+
+        // Handle form submission
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this); // Get form data
+
+            fetch('http://vm.sweep-ai.com:6360/trainingDataUpload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Upload successful:', data);
+                alert('Upload successful.');
+                // Auto-refresh the page after creation
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error uploading file:', error);
+                alert('Error uploading file. Check console for details.');
+            });
+        });
+
+        // Add event listener to the "Return" button
+        document.getElementById('returnBtn').addEventListener('click', function() {
+            window.location.href = 'choose.html'; // Redirect to choose.html
+        });
+    </script>
 </body>
 </html>
