@@ -203,6 +203,12 @@ def messageLLM(name: str, message: str):
     except:
         return "LLM not found"
 
+    message = chatbot.message(message)
+    
+    # Extract message
+    message = message[0]
+    
+    # Remove text behind "[/INST]  "
+    message = message.split("[/INST]  ")[1]
 
-
-    return chatbot.message(message)
+    return message
