@@ -185,8 +185,8 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Training started:', data);
-                alert(`Training started for ${data.ChatBot.name}`);
+                console.log('Fine-tuning finished:', data);
+                alert(`Fine-tuning finished for ${data.ChatBot.name}`);
             })
             .catch(error => {
                 console.error('Error training chatbot:', error);

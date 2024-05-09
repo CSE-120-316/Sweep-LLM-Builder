@@ -120,7 +120,6 @@ def trainChatBot(name: str, data_set: str = ""):
         print(e)
         return e
     
-    chatbot.status = "Trained"
     # Save the LLM object to a pickle file
     saveChatBot(chatbot)
 
