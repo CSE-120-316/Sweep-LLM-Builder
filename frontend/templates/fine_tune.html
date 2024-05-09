@@ -1,3 +1,5 @@
+<!-- Ashley Gonzalez Perez May 8 2024 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,10 +105,7 @@
     <!-- Return button -->
     <button id="returnBtn" class="button">Return</button>
 
-    <h1>Create and Fine-Tune</h1>
-    <div class="row">
-        <button class="button">Pick Chatbot</button>
-    </div>
+    <h1>Fine-Tune ChatBot</h1>
 
     <div class="row">
         <select id="chatbotSelect" class="button">
@@ -119,9 +118,15 @@
         </div>
         <button id="finetuneBtn" class="button">Finetune</button>
     </div>
-    
+
+    <br>
+    <hr/>
+    <br>
+
+    <h1>Create ChatBot</h1>
+
     <div class="row">
-        <input type="textbox" id="textbox" name="textbox" placeholder="Textbox" required><br>
+        <input type="textbox" id="textbox" name="textbox" placeholder="ChatBot Name" required><br>
         <label for="textbox" class="button textbox-label">Create</label>
         
         <form id="uploadForm">
@@ -248,7 +253,7 @@
 
         // Add event listener to the "Return" button
         document.getElementById('returnBtn').addEventListener('click', function() {
-            window.location.href = 'choose.html'; // Redirect to choose.html
+            window.location.href = '/'; // Redirect to index
         });
     </script>
 </body>

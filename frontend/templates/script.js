@@ -1,3 +1,5 @@
+// Ashley Gonzalez Perez May 8, 2024
+
 document.addEventListener('DOMContentLoaded', function () {
     var chatBox = document.getElementById('chat-box');
     var userInput = document.getElementById('user-input');
