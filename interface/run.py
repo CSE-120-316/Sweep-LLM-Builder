@@ -18,7 +18,7 @@ CORS(app)  # Enable CORS for all routes and methods
 def trainingData():
     """
     This function receives the training data for the LLM.
-    Given the name of the data, it saves the training data to a Postgres table.
+    Given the name of the data, it saves the training data.
     """
 
     file = request.files['dataset']

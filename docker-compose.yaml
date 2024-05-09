@@ -10,12 +10,16 @@ services:
     volumes:
       - ./volumes/pickle-data:/app/pickle-data/
       - ./volumes/llm-datasets:/app/llm-datasets/
-      - /srv/capstone/316/cache:/root/.cache/
+      - ./volumes/checkpoint-files:/app/results/
+      - ./volumes/cache:/root/.cache/
     command:
       # ["sh", "/app/setup.sh"]
       # ["nvidia-smi"]
     ports:
       - "6360:5000"
+
+    #! If your device does not have a Nvidia GPU,
+    #! comment out the code below!
     deploy:
       resources:
         reservations:
