@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: grey; 
+}
+
+.chat-container {
+    max-width: 500px;
+    margin: 50px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: darkgrey; 
+}
+
+.chat-box {
+    height: 300px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    background-color: #f9f9f9; 
+    padding: 10px;
+}
+
+#user-input {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#send-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <!-- Chat messages will be displayed here -->
+        </div>
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button id="send-button">Send</button>
+    </div>
+    <div class="row">
+        <button class="button">Pick Chatbot</button>
+    </div>
+
+    <div class="row">
+        <select id="chatbotSelect" class="button">
+            <option value="#" selected disabled>Loading Chatbots...</option>
+        </select>
+        <div class="row">
+            <select id="datasetSelect" class="button">
+                <option value="#" selected disabled>Loading Datasets...</option>
+            </select>
+        </div>
+        <button id="finetuneBtn" class="button">Finetune</button>
+    </div>
+    
+    <div class="row">
+        <input type="textbox" id="textbox" name="textbox" placeholder="Textbox" required><br>
+        <label for="textbox" class="button textbox-label">Create</label>
+        
+        <form action="http://vm.sweep-ai.com:6360/trainingDataUpload" method="post" enctype="multipart/form-data">
+            <!-- <label for="data_name">Dataset Name:</label> -->
+            <p> Dataset Name:</p>
+            <input type="text" name="data_name" id="data_name" required><br>
+            <label for="file">Upload dataset</label>
+            <input type="file" name="dataset" id="file" required><br>
+            <input type="submit" value="Upload">
+        </form>
+        
+    </div>
+
+    <script src="script.js">
+        fetch('http://vm.sweep-ai.com:6360/listChatBots?status=All')
+            .then(response => response.json())
+            .then(data => {
+                const chatbotSelect = document.getElementById('chatbotSelect');
+                chatbotSelect.innerHTML = '';
+                data.forEach(chatbot => {
+                    const option = document.createElement('option');
+                    option.value = chatbot;
+                    option.textContent = chatbot;
+                    chatbotSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching chatbots:', error));
+
+        // Fetch the list of datasets from the provided URL
+        fetch('http://vm.sweep-ai.com:6360/listDatasets')
+            .then(response => response.json())
+            .then(data => {
+                const datasetSelect = document.getElementById('datasetSelect');
+                datasetSelect.innerHTML = '';
+                data.forEach(dataset => {
+                    const option = document.createElement('option');
+                    option.value = dataset;
+                    option.textContent = dataset;
+                    datasetSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching datasets:', error));
+
+        // Add event listener to the "Finetune" button
+        document.getElementById('finetuneBtn').addEventListener('click', function() {
+            const chatbotName = document.getElementById('chatbotSelect').value;
+            const datasetName = document.getElementById('datasetSelect').value;
+        
+            if (!chatbotName || chatbotName === "#" || !datasetName || datasetName === "#") {
+                alert('Please select both a chatbot and a dataset.');
+                return;
+            }
+        
+            fetch('http://vm.sweep-ai.com:6360/trainChatBot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${encodeURIComponent(chatbotName)}&data_name=${encodeURIComponent(datasetName)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Training started:', data);
+                alert(`Training started for ${data.ChatBot.name}`);
+            })
+            .catch(error => {
+                console.error('Error training chatbot:', error);
+                alert('Error starting training. Check console for details.');
+            });
+        });
+
+        // Add event listener to the "Create" button
+        document.querySelector('.textbox-label').addEventListener('click', function() {
+            const textboxValue = document.getElementById('textbox').value;
+
+            if (!textboxValue) {
+                alert('Please enter a value in the textbox.');
+                return;
+            }
+
+            fetch('http://vm.sweep-ai.com:6360/createChatBot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${encodeURIComponent(textboxValue)}&lr=2e-4`
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('ChatBot created:', data);
+                alert(`ChatBot "${data.name}" created successfully.`);
+                // Auto-refresh the page after creation
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error creating ChatBot:', error);
+                alert('Error creating ChatBot. Check console for details.');
+            });
+        });
+    </script>
+</body>
+</html>
